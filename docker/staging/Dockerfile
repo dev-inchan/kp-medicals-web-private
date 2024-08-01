@@ -21,6 +21,9 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
+# MSW 패키지를 설치합니다.
+RUN npm install msw --save-dev
+
 # Builder 스테이지: 필요에 따라 base 스테이지를 기반으로 하여 소스 코드 빌드, deps 스테이지에서 설치한 종속성을 복사하고, 소스 코드를 복사한 후 빌드합니다.
 FROM base AS builder
 WORKDIR /app
@@ -32,6 +35,8 @@ COPY .env.staging .env.production
 
 # tsconfig.json 파일의 내용을 출력하여 확인
 RUN cat tsconfig.json
+
+
 
 RUN npm run build
 
