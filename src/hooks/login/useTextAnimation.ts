@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import style from '@/containers/signup/index.module.scss';
+// import style from '@/containers/signup/index.module.scss';
+import style from '../../containers/signup/index.module.scss';
 
 export const useTextAnimation = (texts: string[]) => {
   const [currentIndex, setCurrentIndex] = useState(0);
