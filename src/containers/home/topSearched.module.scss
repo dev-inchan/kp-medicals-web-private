@@ -1,0 +1,115 @@
+.top_sc_container {
+  padding: 45px 24px 54px 24px;
+  @media screen and (min-width: 768px) {
+    padding: 40px 40px 40px 40px;
+  }
+  @media screen and (min-width: 1024px) {
+    padding: 80px 80px 80px 80px;
+  }
+}
+
+.center_align {
+  margin: 0px auto;
+}
+
+.search {
+  //font-family: 'sharp-sans-semibold', 'fallback-font', Arial, sans-serif;
+  font-size: 20px;
+  line-height: 26px;
+  padding-bottom: 24px;
+  @media screen and (min-width: 768px) {
+    padding-bottom: 28px;
+    font-size: 24px;
+    line-height: 32px;
+  }
+  @media screen and (min-width: 1024px) {
+    padding-bottom: 48px;
+  }
+}
+
+.grid_container {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, 1fr); /* Default for small screens */
+
+  @media screen and (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns for medium screens */
+  }
+
+  @media screen and (min-width: 1024px) {
+    grid-template-columns: repeat(6, 1fr); /* 6 columns for large screens */
+  }
+}
+
+.top_link {
+  background-color: #cff0fa;
+  padding: 23px 0px 13px;
+  text-decoration: none;
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  border: 1px solid rgba(58, 47, 31, 0.1);
+  transition: box-shadow 0.1s ease 0s;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  @media screen and (min-width: 768px) {
+    padding: 6px;
+    margin-right: 6px;
+  }
+  @media screen and (min-width: 1024px) {
+    padding: 23px 0px 13px;
+  }
+
+  p {
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 8px;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+
+    @media screen and (min-width: 1024px) {
+      padding-left: 30px;
+      padding-right: 30px;
+      margin-bottom: 15px;
+      max-width: 178px;
+    }
+  }
+
+  svg {
+    height: auto;
+    width: 100%;
+  }
+
+  div {
+    //mily: 'Malgun Gothic', 'sharp-sans-semibold', 'fallback-font', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-transform: none;
+    white-space: nowrap;
+
+    @media screen and (min-width: 768px) {
+      font-size: 14px;
+      line-height: 22px;
+    }
+
+    @media screen and (min-width: 1024px) {
+      font-size: 16px;
+      line-height: 26px;
+    }
+    @media screen and (min-width: 1200px) {
+      font-size: 20px;
+      line-height: 26px;
+    }
+  }
+}
+
+.img {
+  width: 100%;
+}

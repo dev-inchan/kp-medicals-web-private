@@ -1,0 +1,84 @@
+// 로그인 모달창
+.containerModal {
+  margin-top: 60px;
+}
+
+.inputWrapperModal {
+  margin-bottom: 12px !important;
+}
+
+.inputIdModal {
+  box-sizing: border-box;
+  margin-bottom: 12px !important;
+  width: 312px !important;
+  margin-top: 0 !important;
+  padding: 13px 12px;
+  height: 48px;
+  line-height: 1.47;
+  font-size: 15px;
+  border: 1px solid #dee2e6;
+  letter-spacing: -0.3px;
+  border-radius: 4px;
+  background-color: #fff;
+  &:focus {
+    outline: none;
+    border: 1px solid #2dc8f3;
+  }
+}
+
+.pawWrapperModal {
+  box-sizing: border-box;
+  width: 312px !important;
+  margin-top: 0 !important;
+  display: flex;
+  padding: 13px 12px;
+
+  height: 48px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.inputPawModal {
+  padding: 0;
+  width: 100%;
+  line-height: 1.47;
+  letter-spacing: -0.3px;
+  font-size: 15px;
+  border: 0;
+  background: none;
+}
+
+.inputPawModal:focus {
+  outline: none;
+  /* border: none; */
+}
+
+.pawWrapperModal:focus-within {
+  border: 1px solid #2dc8f3;
+}
+
+.loginBtnModal {
+  border-color: #2dc8f3;
+  font-weight: 700;
+  background-color: #2dc8f3;
+
+  margin: 12px 0 !important;
+  width: 312px;
+  height: 48px;
+
+  border: 1px solid;
+  color: #fff;
+  cursor: pointer;
+}
+.eroWrapper {
+  margin-top: 3px;
+  width: 100%;
+}
+.eroText {
+  -webkit-tap-highlight-color: transparent;
+  color: rgb(250, 82, 82);
+  font-size: 0.875rem;
+  text-decoration: none;
+  line-height: 1.5;
+}

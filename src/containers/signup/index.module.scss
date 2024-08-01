@@ -1,0 +1,203 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  // text-align: center;
+  @media screen and (max-width: 768px) {
+    // padding: 32px 24px;
+    // width: 100%;
+  }
+}
+.container {
+  box-sizing: border-box;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 4.5rem 1rem;
+  width: 22.5rem;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-direction: column;
+  @media screen and (max-width: 768px) {
+    padding: 32px 16px;
+    width: 100%;
+  }
+  // width: 350px;
+  // margin: 47px auto 0px;
+  // @media screen and (min-width: 768px) {
+  //   width: 578px;
+  //   margin: 88px auto 264px;
+  // }
+}
+
+.text-container {
+  margin-bottom: 1.5rem;
+  display: flex;
+  gap: 0.25rem;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.text-title {
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  text-decoration: none;
+
+  font-weight: 700;
+  font-size: 1.625rem;
+  line-height: 1.35;
+  margin: 0px;
+}
+
+.text-anim-wrapper {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  white-space: nowrap;
+}
+
+.text-anim {
+  display: block;
+  animation: anim 3000ms ease-in-out;
+}
+
+@keyframes anim {
+  0% {
+    transform: translateX(0);
+  }
+  80% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.text {
+  display: inline-block;
+  width: 100%;
+
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: inherit;
+  text-decoration: none;
+  text-align: center;
+  line-height: 1.5;
+}
+
+//  form 스타일
+// .form {
+//   width: 100%;
+//   display: flex;
+//   gap: 1rem;
+//   flex-direction: column;
+// }
+
+// .inputContainer {
+//   display: block;
+
+//   line-height: 1.5;
+// }
+// .inputLabel {
+//   display: inline-block;
+//   font-weight: 500;
+//   color: rgb(33, 37, 41);
+//   word-break: break-word;
+//   cursor: default;
+//   -webkit-tap-highlight-color: transparent;
+//   font-size: 16px;
+// }
+
+// .input {
+//   height: 3.125rem;
+//   -webkit-tap-highlight-color: transparent;
+//   line-height: calc(3rem);
+//   appearance: none;
+//   resize: none;
+//   box-sizing: border-box;
+//   font-size: 1.125rem;
+//   width: 100%;
+//   color: rgb(0, 0, 0);
+//   display: block;
+//   text-align: left;
+//   border: 0.0625rem solid rgb(206, 212, 218);
+//   background-color: rgb(255, 255, 255);
+//   transition: border-color 100ms ease 0s;
+//   min-height: 3.125rem;
+//   padding-left: calc(1.04167rem);
+//   padding-right: calc(1.04167rem);
+//   border-radius: 0.5rem;
+//   &:focus {
+//     border-color: rgb(33, 37, 41);
+//     outline: none; /* 기본 포커스 스타일 제거 */
+//   }
+// }
+// .intputSex {
+//   height: 3.125rem;
+//   -webkit-tap-highlight-color: transparent;
+//   line-height: calc(3rem);
+//   appearance: none;
+//   resize: none;
+//   box-sizing: border-box;
+//   font-size: 1.125rem;
+//   width: 50px;
+//   color: rgb(0, 0, 0);
+//   display: block;
+//   text-align: left;
+//   border: 0.0625rem solid rgb(206, 212, 218);
+//   background-color: rgb(255, 255, 255);
+//   transition: border-color 100ms ease 0s;
+//   min-height: 3.125rem;
+//   padding-left: calc(1.04167rem);
+//   padding-right: calc(1.04167rem);
+//   border-radius: 0.5rem;
+//   &:focus {
+//     border-color: rgb(33, 37, 41);
+//     outline: none; /* 기본 포커스 스타일 제거 */
+//   }
+// }
+
+// .inputText {
+//   display: flex;
+//   align-items: center;
+//   margin-left: 2px;
+// }
+
+// .flex {
+//   display: flex;
+// }
+
+// .subSend {
+//   margin-left: 0.2rem;
+//   height: 3.125rem;
+//   min-height: 3.125rem;
+//   padding-left: calc(1.04167rem);
+//   padding-right: calc(1.04167rem);
+//   box-sizing: border-box;
+//   font-weight: 600;
+//   border: 0.0625rem solid transparent;
+//   background-color: rgb(0, 196, 113);
+//   color: rgb(255, 255, 255);
+//   border-radius: 0.5rem;
+//   white-space: nowrap;
+//   cursor: pointer;
+// }
+
+// .register {
+//   height: 3.125rem;
+//   min-height: 3.125rem;
+//   padding-left: calc(1.04167rem);
+//   padding-right: calc(1.04167rem);
+//   box-sizing: border-box;
+//   font-weight: 600;
+//   border: 0.0625rem solid transparent;
+//   background-color: rgb(0, 196, 113);
+//   color: rgb(255, 255, 255);
+//   border-radius: 0.5rem;
+//   white-space: nowrap;
+//   cursor: pointer;
+// }

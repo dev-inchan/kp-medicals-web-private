@@ -1,0 +1,88 @@
+.scText {
+  padding: 0 22px;
+
+  @media screen and (min-width: 768px) {
+    text-align: center;
+  }
+
+  @media screen and (min-width: 1024px) {
+    padding: 80px 0 15px;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 24px;
+    line-height: 32px;
+    padding: 8px 0;
+
+    @media screen and (min-width: 768px) {
+      font-size: 30px;
+      line-height: 44px;
+    }
+
+    @media screen and (min-width: 1280px) {
+      font-size: 32px;
+      line-height: 44px;
+    }
+  }
+
+  h2 {
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: 0em;
+    text-transform: none;
+
+    @media screen and (min-width: 1024px) {
+      font-size: 16px;
+      line-height: 26px;
+      letter-spacing: 0em;
+      text-transform: none;
+    }
+  }
+}
+
+.leftHand,
+.rightHand {
+  position: absolute;
+  display: none;
+
+  @media screen and (min-width: 1024px) {
+    display: block;
+    top: 40px;
+  }
+
+  &.leftHand {
+    width: 255px;
+    height: 205px;
+
+    @media screen and (min-width: 1024px) {
+      left: -100px;
+    }
+
+    @media screen and (min-width: 1280px) {
+      left: -75px;
+    }
+
+    @media screen and (min-width: 1440px) {
+      left: 0;
+    }
+  }
+
+  &.rightHand {
+    width: 254px;
+    height: 216px;
+
+    @media screen and (min-width: 1024px) {
+      right: -100px;
+    }
+
+    @media screen and (min-width: 1280px) {
+      right: -75px;
+    }
+
+    @media screen and (min-width: 1440px) {
+      right: 0;
+    }
+  }
+}
