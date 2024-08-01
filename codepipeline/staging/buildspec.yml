@@ -1,0 +1,58 @@
+# buildspec.yml
+version: 0.2
+env: # shell script 실행 중 사용할 환경 변수 정의
+  variables:
+    AWS_DEFAULT_REGION: 'ap-northeast-2'
+    AWS_ACCOUNT_ID: '381492170774'
+    BASE_IMAGE_NAME: 'node'
+    BASE_IMAGE_TAG: 'dev'
+    PROJECT_NAME: 'kp-medicalwallet'
+    GIT_BRANCH: 'test'
+    IMAGE_TAG: 'latest'
+    DEPLOY_LEVEL: 'staging' # 지금은 git branch와 deploy level을 다르게 사용하지만, 나중에 다시? 현업 가서 할 때는 통일 시키는 것을 추천
+
+phases:
+  pre_build: # 각 변수 정의, AWS ECR 로그인
+    commands:
+      - echo Setting up environment variables...
+      # ssm parameter store에 있는 변수 사용
+      - aws ssm get-parameter --name /$PROJECT_NAME/$DEPLOY_LEVEL/env --with-decryption --query Parameter.Value --output text > .env.$DEPLOY_LEVEL;
+
+      - IMAGE_REPO_NAME="${PROJECT_NAME}-${GIT_BRANCH}"
+      - REPO_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com" # 개인 ECR URI 생성
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7) # 커밋 해시 앞자리 7자리 반환
+      - BUILD_TAG=${COMMIT_HASH:=latest} # build 태그에 커밋 해시 또는 latest 할당
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $REPO_URI # ECR 접근 권한 키 가져오기
+      - echo "[pre_build] Phase End"
+  build: # Docker에서 사용할 이미지 빌드
+    commands:
+      - echo Building $IMAGE_REPO_NAME Project...
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -f docker/$DEPLOY_LEVEL/Dockerfile --platform=linux/amd64 -t $IMAGE_REPO_NAME:$BUILD_TAG --build-arg AWS_ACCOUNT_ID=$AWS_ACCOUNT_ID --build-arg AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION --build-arg BASE_IMAGE_NAME=$BASE_IMAGE_NAME --build-arg BASE_IMAGE_TAG=$BASE_IMAGE_TAG . # Dockerfile로 환경변수 전달
+      # 같은 이미지에 대해 repository에 업로드할 여러 태그 생성(최신 배포용, 버전 관리용)
+      - docker tag $IMAGE_REPO_NAME:$BUILD_TAG $REPO_URI/$IMAGE_REPO_NAME:$IMAGE_TAG
+      - docker tag $IMAGE_REPO_NAME:$BUILD_TAG $REPO_URI/$IMAGE_REPO_NAME:$BUILD_TAG
+      - echo "[build] Phase End"
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image... # 다중 태그 이미지 push를 지원하지 않기에 직접 2번 push
+      - docker push $REPO_URI/$IMAGE_REPO_NAME:$IMAGE_TAG # 최신 배포에서 pull할 이미지
+      - docker push $REPO_URI/$IMAGE_REPO_NAME:$BUILD_TAG # 버전 관리용 이미지
+      - echo Copying appspec.yml to root directory... # artifact의 루트 디렉토리에 위치시키기 위해 사용
+      - cp codepipeline/$DEPLOY_LEVEL/appspec.yml appspec.yml
+      - cp codepipeline/$DEPLOY_LEVEL/scripts/stop_container.sh stop_container.sh
+      - cp codepipeline/$DEPLOY_LEVEL/scripts/run_container.sh run_container.sh
+      - echo Making scripts executable... # 스크립트 파일 실행 가능하게 설정
+      - chmod +x stop_container.sh
+      - chmod +x run_container.sh
+      - echo "[post_build] Phase End"
+artifacts: # 해당 repository에서 S3에 저장할 파일들 명시(Docker 배포가 아닌 일반 배포의 경우엔 빌드한 파일들을 명시함)
+  files:
+    - Makefile
+    - appspec.yml
+    - stop_container.sh
+    - run_container.sh
+    - docker/$DEPLOY_LEVEL/docker-compose.yml

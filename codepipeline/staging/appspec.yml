@@ -1,0 +1,11 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/juns/KpServer/kp-medicalwallet
+hooks:
+  AfterInstall:
+    - location: stop_container.sh
+      timeout: 300
+    - location: run_container.sh
+      timeout: 300
