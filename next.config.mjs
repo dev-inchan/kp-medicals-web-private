@@ -7,10 +7,10 @@ const nextConfig = {
   typescript: {
     tsconfigPath: path.resolve('./tsconfig.json'),
   },
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    config.resolve.alias['@'] = path.resolve(dirname(fileURLToPath(import.meta.url)), 'src');
-    return config;
-  },
+  // webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+  //   config.resolve.alias['@'] = path.resolve(dirname(fileURLToPath(import.meta.url)), 'src');
+  //   return config;
+  // },
 };
 
 export default nextConfig;
