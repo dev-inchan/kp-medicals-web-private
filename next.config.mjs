@@ -1,8 +1,10 @@
+import path from 'path';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
   typescript: {
-    tsconfigPath: resolve('./tsconfig.json'),
+    tsconfigPath: path.resolve('./tsconfig.json'),
   },
 };
 
