@@ -29,6 +29,10 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # developement 환경 변수를 이미지 내에서는 production 환경 변수인 것처럼 사용
 COPY .env.staging .env.production
+
+# tsconfig.json 파일의 내용을 출력하여 확인
+RUN cat tsconfig.json
+
 RUN npm run build
 
 # Runner 스테이지: base 스테이지를 기반으로 최종 실행 환경을 설정한다. 이때 deps 스테이지에서 설치한 종속성을 복사하고, 소스 코드를 복사한 후 빌드한다.
