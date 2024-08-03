@@ -5,4 +5,4 @@ services:
       dockerfile: docker/staging/Dockerfile
     image: 381492170774.dkr.ecr.ap-northeast-2.amazonaws.com/kp-medicalwallet-test:latest
     ports:
-      - '3002:3000'
+      - '3003:3000'
