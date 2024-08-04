@@ -35,7 +35,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Makefile이 있는 디렉토리로 이동(테스트 서버 기준)
-cd /home/juns/KpServer/kp-explorer
+cd /home/juns/KpServer/kp-medicalwallet
 
 # Makefile을 사용하여 Docker 컨테이너 실행
 make start-${DEPLOY_LEVEL}

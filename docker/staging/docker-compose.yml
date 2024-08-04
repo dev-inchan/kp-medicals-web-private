@@ -1,5 +1,5 @@
 services:
-  kp-explorer:
+  kp-medicalwallet:
     build:
       context: ../../
       dockerfile: docker/staging/Dockerfile
