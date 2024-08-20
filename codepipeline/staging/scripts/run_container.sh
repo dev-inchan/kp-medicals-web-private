@@ -7,7 +7,7 @@ PROJECT_NAME='kp-medicalwallet'
 GIT_BRANCH='test'
 IMAGE_TAG='latest'
 DEPLOY_LEVEL='staging'
-PROJECT_DIR = '/home/kpm/kp-medicalwallet'
+PROJECT_DIR='/home/kpm/kp-medicalwallet'
 
 # Docker 이미지 이름 생성
 IMAGE_REPO_NAME="${PROJECT_NAME}-${GIT_BRANCH}"
