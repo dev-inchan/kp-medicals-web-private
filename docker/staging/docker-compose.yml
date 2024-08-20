@@ -1,8 +1,9 @@
 services:
   kp-medicalwallet:
     build:
-      context: ../../
+      context: /
       dockerfile: docker/staging/Dockerfile
     image: 381492170774.dkr.ecr.ap-northeast-2.amazonaws.com/kp-medicalwallet-test:latest
+    container_name: kp-medicalwallet
     ports:
       - '3003:3000'

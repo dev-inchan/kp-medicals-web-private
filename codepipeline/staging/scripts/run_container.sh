@@ -7,6 +7,7 @@ PROJECT_NAME='kp-medicalwallet'
 GIT_BRANCH='test'
 IMAGE_TAG='latest'
 DEPLOY_LEVEL='staging'
+PROJECT_DIR = '/home/kpm/kp-medicalwallet'
 
 # Docker 이미지 이름 생성
 IMAGE_REPO_NAME="${PROJECT_NAME}-${GIT_BRANCH}"
@@ -35,7 +36,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Makefile이 있는 디렉토리로 이동(테스트 서버 기준)
-cd /home/juns/KpServer/kp-medicalwallet
+cd $PROJECT_DIR
 
 # Makefile을 사용하여 Docker 컨테이너 실행
 make start-${DEPLOY_LEVEL}
