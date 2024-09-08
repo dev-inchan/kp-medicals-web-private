@@ -13,43 +13,43 @@ export default function TopSearched() {
   return (
     <section className={style.top_sc_container}>
       <div className={style.center_align}>
-        <h3 className={style.search}>Top-searched specialites</h3>
+        <h3 className={style.search}>가장 많이 검색된 분야</h3>
         <div className={style.grid_container}>
           <Link href='/find' className={style.top_link}>
             <p className={style.test}>
               <Image src={PrimaryCare} alt='Primary Care' className={style.img} />
             </p>
-            <div>Primary Care</div>
+            <div>가정의학과</div>
           </Link>
           <Link href='/find' className={style.top_link}>
             <p className={style.test}>
               <Image src={Dentist} alt='Dentist' className={style.img} />
             </p>
-            <div>dentist</div>
+            <div>치과</div>
           </Link>
           <Link href='/find' className={style.top_link}>
             <p className={style.test}>
               <Image src={ObGyn} alt='ObGyn' className={style.img} />
             </p>
-            <div>OB-GYN</div>
+            <div>산부인과</div>
           </Link>
           <Link href='/find' className={style.top_link}>
             <p className={style.test}>
               <Image src={Dermatologist} alt='Dermatologist' className={style.img} />
             </p>
-            <div>Dermatologist</div>
+            <div>피부과</div>
           </Link>
           <Link href='/find' className={style.top_link}>
             <p className={style.test}>
               <Image src={Psychiatrist} alt='Psychiatrist' className={style.img} />
             </p>
-            <div>Psychiatrist</div>
+            <div>정신의학과</div>
           </Link>
           <Link href='/find' className={style.top_link}>
             <p className={style.test}>
               <Image src={EyeDoctor} alt='EyeDoctor' className={style.img} />
             </p>
-            <div>Eye Doctor</div>
+            <div>안과</div>
           </Link>
         </div>
       </div>

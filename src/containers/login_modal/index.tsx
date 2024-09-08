@@ -54,11 +54,8 @@ export default function LoginModal({ handleLoginModal }: Props) {
       } else {
         // console.log('로그인 실패 ');
       }
-
-      // Handle success (e.g., navigate to another page, show success message)
     } catch (error) {
       console.error('Error:', error);
-      // Handle error (e.g., show error message)
     }
   };
 

@@ -4,6 +4,7 @@ import { HospitalDetail, ReservationRequest, ReservationResponse } from '@/types
  * 병원 예약 상세 정보 요청 api
  */
 export const getHospitalDetail = async (accessToken: string | null, hospitalId: number): Promise<HospitalDetail> => {
+  console.log('getHospitalDetail');
   if (!accessToken) {
     throw new Error('Access token is required');
   }

@@ -1,7 +1,7 @@
 .rs_container {
   padding: 4px 24px 24px 24px;
 
-  overflow: hidden; /* 부모 요소를 벗어나는 내용을 숨김 */
+  // overflow: hidden; /* 부모 요소를 벗어나는 내용을 숨김 */
 
   @media screen and (min-width: 768px) {
     padding: 30px 40px 24px 40px;
@@ -16,18 +16,11 @@
     max-width: 1440px;
   }
 }
-.rs_item_container {
-  // margin-left: 24px;
 
-  // @media screen and (min-width: 1024px) {
-  //   margin-left: 48px;
-  // }
-}
 .rs_item_title {
   font-size: 28px;
   line-height: 36px;
 
-  //font-family: 'sharp-sans-semibold', 'fallback-font', Arial, sans-serif;
   @media screen and (min-width: 768px) {
     font-size: 44px;
     line-height: 60px;
@@ -36,8 +29,6 @@
   }
 }
 .search_container {
-  // display: flex;
-  // flex-direction: column;
   margin-top: 18px;
   position: relative;
   margin: 0 auto; /* 중앙 정렬 */
@@ -84,6 +75,7 @@
   display: flex;
   align-items: center;
   width: 100%;
+  max-width: 640px;
 }
 
 .flex {
@@ -111,7 +103,8 @@
 }
 
 .search_input {
-  width: 80%;
+  // width: 80%;
+  width: 300px;
   padding: 2px;
   margin-left: 10px;
   //font-family: sharp-sans-semibold, fallback-font, Arial, sans-serif;

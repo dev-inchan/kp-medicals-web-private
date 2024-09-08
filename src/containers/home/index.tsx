@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main>
+      <main style={{ overflow: 'hidden' }}>
         {/* 검색 section */}
         <SearchSection />
         {/* Top Searched */}

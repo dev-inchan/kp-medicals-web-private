@@ -14,7 +14,7 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'kp doctor',
+  title: 'Medical Wallet',
 };
 
 export default function RootLayout({

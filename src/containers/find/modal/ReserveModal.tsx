@@ -14,6 +14,9 @@ type Props = {
   hospitalId: number; // 병원 ID를 Props로 받아옴
 };
 
+const NO_DATA = '예약할 수 있는 정보가 없습니다.';
+const NO_SCHEDULE = '예약할 수 있는 스케줄 정보가 없습니다.';
+
 // 시간 슬롯을 포맷팅하는 함수
 function formatTimeSlots(startTime: string, endTime: string, slot: number) {
   console.log('startTime :', startTime);
@@ -46,7 +49,7 @@ export default function ReserveModal({ handleReserveModal, hospitalId }: Props) 
     queryFn: () => getHospitalDetail(getToken(), hospitalId),
     enabled: !!getToken() && !!hospitalId, // 토큰과 병원 ID가 있을 때만 쿼리 실행
   });
-
+  console.log('data :', data);
   // 로딩 상태 처리
   if (isLoading) {
     return <div>Loading...</div>;
@@ -59,13 +62,23 @@ export default function ReserveModal({ handleReserveModal, hospitalId }: Props) 
 
   // 데이터가 없을 경우 처리
   if (!data || !data.data || !data.data.doctors) {
-    return <div>No data available</div>;
+    return <div>{NO_DATA}</div>;
   }
 
-  const schedules = data.data.doctors[0].main_schedules;
-  const doctorName = data.data.doctors[0].name;
-  const staffId = data.data.doctors[0].staff_id;
-  const timeSlot = schedules[0].time_slot; // 시간 슬롯 간격
+  // const schedules = data.data.doctors[0].main_schedules;
+  // const doctorName = data.data.doctors[0].name;
+  // const staffId = data.data.doctors[0].staff_id;
+  // const timeSlot = schedules[0].time_slot; // 시간 슬롯 간격
+  const doctor = data.data.doctors[0];
+  const schedules = doctor?.main_schedules || []; // schedules가 없으면 빈 배열로 처리
+  const doctorName = doctor?.name || 'Unknown'; // 의사 이름이 없을 경우 기본값 설정
+  const staffId = doctor?.staff_id || null; // staff_id가 없을 경우 null 처리
+
+  if (schedules.length === 0) {
+    return <div>{NO_SCHEDULE}</div>; // 스케줄이 없으면 메시지 출력
+  }
+
+  const timeSlot = schedules[0]?.time_slot || '0'; // time_slot이 없을 경우 기본값 설정
 
   // 더 많은 날짜를 표시하는 함수
   const handleShowMoreDays = () => {

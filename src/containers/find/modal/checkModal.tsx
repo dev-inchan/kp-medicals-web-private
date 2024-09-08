@@ -10,35 +10,37 @@ type Props = {
   selectedTime: string;
   date: string;
   timeSlot: string;
-  staffId: number;
+  staffId: number | null;
   hospitalId: number;
 };
 
 // 08:00 AM , 3:00 PM 시간을 HH:mm 형식으로 변환
 const convertTo24HourFormat = (time: string) => {
-  // 시간 문자열을 'AM' 또는 'PM'을 기준으로 나눕니다.
+  // 시간 문자열을 'AM' 또는 'PM'을 기준으로 나눕
   const [timePart, modifier] = time.split(/(am|pm)/i);
 
-  // 시간을 ':'을 기준으로 나누어 시간과 분을 숫자로 변환합니다.
+  // 시간을 ':'을 기준으로 나누어 시간과 분을 숫자로 변환
   let [hours, minutes] = timePart.split(':').map(Number);
 
-  // 만약 'PM'이고 시간이 12시보다 작다면, 12를 더하여 24시간 형식으로 변환합니다.
+  // 만약 'PM'이고 시간이 12시보다 작다면, 12를 더하여 24시간 형식으로 변환
   if (modifier.toLowerCase() === 'pm' && hours < 12) {
     hours += 12;
   }
 
-  // 만약 'AM'이고 시간이 12시라면, 0시로 변환합니다.
+  // 만약 'AM'이고 시간이 12시라면, 0시로 변환
   if (modifier.toLowerCase() === 'am' && hours === 12) {
     hours = 0;
   }
 
-  // 시간과 분을 두 자리 숫자로 포맷하여 'HH:mm' 형식의 문자열로 반환합니다.
+  // 시간과 분을 두 자리 숫자로 포맷하여 'HH:mm' 형식의 문자열로 반환
   return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
 };
 
 export default function CheckModal({ handleCheckModal, selectedTime, date, timeSlot, staffId, hospitalId }: Props) {
   // console.log(selectedTime, staffId, hospitalId);
-
+  if (staffId === null) {
+    return <div>의사 정보가 없습니다.</div>; // staffId가 없을 때 처리
+  }
   const mutation = useMutation<ReservationResponse, Error, ReservationRequest>({
     mutationFn: createHospitalReservation,
     onSuccess: (data) => {

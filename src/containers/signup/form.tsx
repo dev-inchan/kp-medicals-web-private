@@ -2,16 +2,21 @@
 import { useState, useEffect } from 'react';
 import style from './form.module.scss';
 import { useRouter } from 'next/navigation';
-
-const useridEroM = '아이디를 확인해주세요';
-const checkidEroM = '아이디 중복검사 해주세요';
-const passwordroM = '비밀번호를 확인해주세요';
-const confirmPasswordEroM = '비밀번호가 일치하지 않습니다.';
-const namEroM = '이름을 입력해주세요';
-const phonEroM = '전화번호를 입력해주세요';
-const isphoneVerifyEroM = '인증번호를 다시 확인해주세요';
-const birthDateEroM = '생년월일 8자리를 입력해주세요';
-const sexEroM = '성별을 입력해주세요';
+import { checkUserIdAvailability, sendVerificationCode, registerUser, verifyPhoneNumberCode } from '@/service/register';
+import { validateForm } from './validation';
+import {
+  validateUserId,
+  validatePassword,
+  validateConfirmPassword,
+  validateName,
+  validatePhone,
+  validateVerificationCode,
+  validateBirthDate,
+  validateBirthSex,
+  validateUserIdForCheck,
+  validatePhoneNumber,
+  validateVerificationCodeInput,
+} from './validation';
 
 export default function Form() {
   const router = useRouter();
@@ -29,20 +34,22 @@ export default function Form() {
   });
 
   // 중복확인 검사 state
-  const [isFormValid, setIsFormValid] = useState(true);
+
   const [isIdChecking, setIsIdChecking] = useState(false);
   const [checkedId, setCheckedId] = useState('');
   const [isTelChecking, setIsTelChecking] = useState(false);
-
+  const [인증번호체크한핸드폰번호, set인증번호체크한핸드폰번호] = useState('');
   // 인증번호 토큰
   const [telToken, setTelToken] = useState('');
 
   // 에러문구 state
   const [IdEro, setIdEro] = useState('');
+  const [isUsernameAvailable, setIsUsernameAvailable] = useState('');
   const [PawEro, setPawEro] = useState('');
   const [ConfirmPawEro, setConfirmPawEro] = useState('');
   const [NameEro, setNameEro] = useState('');
   const [TelEro, setTelEro] = useState('');
+
   const [verifyEro, setVerifyEro] = useState('');
   const [DobEro, setDobEro] = useState('');
   const [SexEro, setSexEro] = useState('');
@@ -60,75 +67,22 @@ export default function Form() {
   const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    if (name == 'userid') {
-      const isValid = /^[a-zA-Z0-9]{6,30}$/.test(formData.userid.trim());
-      if (!isValid) {
-        setIdEro(useridEroM);
-      } else {
-        setIdEro('');
-      }
-
-      return;
-    }
-    if (name == 'password') {
-      const isValid = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,30}$/.test(formData.password.trim());
-      if (!isValid) {
-        setPawEro(passwordroM);
-        // return;
-      } else {
-        setPawEro('');
-      }
-      return;
-    }
-    if (name == 'confirmPassword') {
-      // 비밀번호 재확인 검사
-
-      if (formData.password.trim() !== formData.confirmPassword.trim()) {
-        setConfirmPawEro(confirmPasswordEroM);
-      } else {
-        setConfirmPawEro('');
-      }
-      return;
-    }
-    if (name == 'name') {
-      // 이름 입력검사
-      if (value.trim() === '') {
-        setNameEro(namEroM);
-      } else {
-        setNameEro('');
-      }
-      return;
-    }
-    if (name == 'phone') {
-      // 전화번호 입력검사
-
-      if (value.trim() == '') {
-        setTelEro(phonEroM);
-        // return;
-      } else {
-        setTelEro('');
-      }
-      return;
-    }
-    if (name == 'birthDate') {
-      // 생년월일 입력검사
-
-      if (value.trim() === '') {
-        setDobEro(birthDateEroM);
-      } else {
-        setDobEro('');
-      }
-      return;
-    }
-    if (name == 'birthSex') {
-      // 성별 입력검사
-
-      if (value.trim() === '') {
-        setSexEro(sexEroM);
-      } else {
-        setSexEro('');
-      }
-      return;
+    if (name === 'userid') {
+      setIdEro(validateUserId(value));
+    } else if (name === 'password') {
+      setPawEro(validatePassword(value));
+    } else if (name === 'confirmPassword') {
+      setConfirmPawEro(validateConfirmPassword(formData.password, value));
+    } else if (name === 'name') {
+      setNameEro(validateName(value));
+    } else if (name === 'phone') {
+      setTelEro(validatePhone(value));
+    } else if (name === 'verificationCode') {
+      setVerifyEro(validateVerificationCode(value));
+    } else if (name === 'birthDate') {
+      setDobEro(validateBirthDate(value));
+    } else if (name === 'birthSex') {
+      setSexEro(validateBirthSex(value));
     }
   };
 
@@ -136,159 +90,205 @@ export default function Form() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // 모든 필드를 입력했는지 검사
-    if (!Object.values(formData).every((value) => value.trim() !== '')) {
-      console.log('1');
-      setIsFormValid(false);
-      return;
-    }
-    // 중복확인 검사
-    if (!isIdChecking) {
-      console.log('아이디중복확인');
-      return;
-    }
-    // 중복확인한 아이디와 입력한 아이디가 같은지 검사.
-    if (checkedId !== formData.userid.trim()) {
-      setIdEro(useridEroM);
+    const validationState = {
+      formData,
+      isIdChecking,
+      checkedId,
+      isTelChecking,
+      인증번호체크한핸드폰번호,
+    };
 
-      console.log('2');
-      return;
-    }
-    // 비밀번호 확인 검사
-    if (formData.password.trim() !== formData.confirmPassword.trim()) {
-      setConfirmPawEro(confirmPasswordEroM);
-      console.log('2');
-      return;
-    }
-    // 인증번호 확인했는지 검사.
-    if (!isTelChecking) {
-      console.log('3');
-      return;
-    }
+    const { errors } = validateForm(validationState);
 
+    // 오류 메시지를 상태에 설정
+    setIdEro(errors.userid || '');
+    setPawEro(errors.password || '');
+    setConfirmPawEro(errors.confirmPassword || '');
+    setNameEro(errors.name || '');
+    setTelEro(errors.phone || '');
+    setVerifyEro(errors.verificationCode || '');
+    setDobEro(errors.birthDate || '');
+    setSexEro(errors.birthSex || '');
+
+    // // 모든 필드를 입력했는지 검사
+    // if (!Object.values(formData).every((value) => value.trim() !== '')) {
+    //   console.log('1');
+    //   setIsFormValid(false);
+    //   return;
+    // }
+
+    // // 아이디 정규식 검사 (아이디 아무것도 입력 안했을때 && 정규식에 맞지않게 입력했을때 )
+    // const isValid = /^[a-zA-Z0-9]{6,30}$/.test(formData.userid.trim());
+    // if (!isValid) {
+    //   setIdEro('아이디를 다시 확인해주세요');
+    //   return;
+    // }
+
+    // // 아이디 중복검사 했는지 여부
+    // if (!isIdChecking) {
+    //   // console.log('아이디중복확인');
+    //   setIsUsernameAvailable('아이디 중복검사를 해주세요');
+    //   return;
+    // }
+    // // 중복확인한 아이디와 입력한 아이디가 같은지 검사.
+    // if (checkedId !== formData.userid.trim()) {
+    //   setIdEro('아이디를 다시 입력해주세요');
+    //   return;
+    // }
+
+    // // 비밀번호 정규식 검사  (비밀번호 아무것도 입력 안했을때 && 정규식에 맞지않게 입력했을때 )
+    // const isPawValid = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,30}$/.test(
+    //   formData.password.trim(),
+    // );
+    // if (!isPawValid) {
+    //   setPawEro('비밀번호를 다시 확인해주세요');
+    //   return;
+    // }
+
+    // // 입력한 비밀번호가 같은지 확인
+    // if (formData.password.trim() !== formData.confirmPassword.trim()) {
+    //   setConfirmPawEro('비밀번호가 일치하지 않습니다.');
+    //   setPawEro('비밀번호가 일치하지 않습니다.');
+    //   return;
+    // }
+
+    // // 이름 정규식 검사 (이름 아무것도 입력 안했을때 && 정규식에 맞지않게 입력했을때 )
+    // if (formData.name.trim().length < 2 || formData.name.trim().length > 10) {
+    //   setNameEro('이름은 2자 이상 10자 이하로 입력해주세요.');
+    //   return;
+    // }
+
+    // // 인증번호 확인했는지 검사.
+    // if (!isTelChecking) {
+    //   setTelEro('인증번호를 검사해주세요.');
+    //   return;
+    // }
+
+    // // 전화번호 정규식 검사 (전화번호 아무것도 입력 안했을때 && 정규식에 맞지않게 입력했을때)
+    // const isTellValid = /^[0-9]{10,11}$/.test(formData.phone.trim());
+    // if (!isTellValid) {
+    //   setTelEro('올바른 전화번호를 입력해주세요.');
+    //   return;
+    // }
+
+    // if (인증번호체크한핸드폰번호 !== formData.phone.trim()) {
+    //   setVerifyEro('인증번호를 다시 입력해주세요');
+    //   setTelEro('전화번호를 다시 입력해주세요');
+    //   return;
+    // }
     console.log('제출');
-    // return;
 
     try {
-      const response = await fetch('https://kp-medicals.com/api/medical-wallet/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          account: formData.userid.trim(),
-          password: formData.password.trim(),
-          mobile: formData.phone.trim(),
-          name: formData.name.trim(),
-          dob: formData.birthDate.trim(),
-          sex_code: formData.birthSex.trim(),
-        }),
+      const result = await registerUser({
+        userid: formData.userid.trim(),
+        password: formData.password.trim(),
+        phone: formData.phone.trim(),
+        name: formData.name.trim(),
+        birthDate: formData.birthDate.trim(),
+        birthSex: formData.birthSex.trim(),
       });
-      if (response.ok) {
-        const { status } = await response.json();
-        if (status == 201) {
-          //  회원가입 완료
-          router.replace('/');
-        }
+
+      if (result.status === 201) {
+        // 회원가입 완료
+        router.replace('/');
       } else {
-        alert('Registration failed');
+        alert(`회원가입에 실패하였습니다.`);
       }
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-  // 아이디 중복확인 api
+  // 아이디 중복확인
   const handleCheckUserId = async () => {
-    if (formData.userid.trim() === '') {
+    const userIdError = validateUserIdForCheck(formData.userid);
+
+    if (userIdError) {
+      setIdEro(userIdError);
       console.log('비어있음.');
       return;
     }
+
     try {
-      const response = await fetch(`https://kp-medicals.com/api/medical-wallet/users/${formData.userid}/check`);
-      if (response.ok) {
-        const result = await response.json();
-        const { status } = result;
-        console.log(result);
-        if (status == 200) {
-          setIsIdChecking(true);
-          // alert('사용할 수 있는 아이디입니다.');
-          setCheckedId(formData.userid.trim());
-        } else {
-          setIdEro('사용할 수 없는 아이디입니다.');
-        }
+      const result = await checkUserIdAvailability(formData.userid.trim());
+      const { status } = result;
+      console.log(result);
+      if (status == 200) {
+        setIsIdChecking(true);
+        setCheckedId(formData.userid.trim()); // 중복확인 검사를 한 아이디 저장
+        setIdEro('');
+        alert('사용할 수 있는 아이디입니다.');
       } else {
-        setIsIdChecking(false);
+        setIdEro('사용할 수 없는 아이디입니다.');
       }
     } catch (error) {
       console.error('Error:', error);
-      // setCheckResult('An error occurred while checking the userid');
       setIsIdChecking(false);
     }
   };
+
   // 인증번호 전송
   const handleSendVerificationCode = async () => {
-    if (formData.phone.trim() === '') {
-      console.log('전화번호를 입력해주세요.');
+    const phoneError = validatePhoneNumber(formData.phone);
+
+    if (phoneError) {
+      console.log(phoneError);
+      setTelEro(phoneError);
       return;
     }
+
     try {
-      const response = await fetch(`https://kp-medicals.com/api/medical-wallet/mobile?mobile=${formData.phone}`);
-      if (response.ok) {
-        const result = await response.json();
-        const { status, data } = result;
-        console.log('result : ', result);
-        if (status == 200) {
-          setTelToken(data.verify_token);
-          console.log(data.verify_token);
-        } else {
-          setTelToken('');
-        }
+      const result = await sendVerificationCode(formData.phone.trim());
+      const { status, data } = result;
+      console.log('result:', result);
+      if (status == 200) {
+        setTelToken(data.verify_token);
+        alert('인증번호가 전송되었습니다.');
+        // setTelEro();
+        console.log(data.verify_token);
       } else {
-        // 응답 오류
+        setTelToken('');
+        alert('인증번호 전송에 실패하였습니다.');
       }
     } catch (error) {
       console.error('Error:', error);
+      alert('인증번호 전송에 실패하였습니다.');
     }
   };
 
   // 인증번호 확인
   const handleVerifyCode = async () => {
-    if (formData.verificationCode.trim() === '') {
-      // console.log('인증번호를 입력해주세요.');
-      setVerifyEro('인증번호를 입력해주세요');
-      return;
+    const verificationError = validateVerificationCodeInput(formData.verificationCode, telToken);
+
+    if (verificationError) {
+      setVerifyEro('verificationError');
+      set인증번호체크한핸드폰번호('');
     }
-    console.log();
-    if (telToken === '') {
-      // console.log('인증번호 전송을 먼저 해주세요.');
-      setVerifyEro('인증번호 전송을 먼저 해주세요');
-      return;
-    }
+
     try {
-      const response = await fetch(
-        `https://kp-medicals.com/api/medical-wallet/mobile/check?mobile=${formData.phone}&mobile_code=${formData.verificationCode}&verify_token=${telToken}`,
-      );
-      if (response.ok) {
-        const result = await response.json();
-        const { status } = result;
-        if (status == 200) {
-          setIsTelChecking(true);
-          alert('인증번호가 확인되었습니다.');
-        } else {
-          alert('인증번호가 일치하지 않습니다.');
-          setIsTelChecking(false);
-        }
+      const result = await verifyPhoneNumberCode(formData.phone, formData.verificationCode, telToken);
+      const { status } = result;
+      if (status == 200) {
+        setIsTelChecking(true);
+        set인증번호체크한핸드폰번호(formData.phone);
+        setVerifyEro('');
+        alert('인증번호가 확인되었습니다.');
       } else {
-        alert('인증번호 확인에 실패했습니다.');
         setIsTelChecking(false);
+        set인증번호체크한핸드폰번호('');
+        alert('인증번호가 일치하지 않습니다.');
       }
     } catch (error) {
-      console.error('Error:', error);
       setIsTelChecking(false);
+      setVerifyEro('인증번호 확인에 실패했습니다.');
+      set인증번호체크한핸드폰번호('');
     }
   };
 
+  const test = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    console.log(isUsernameAvailable);
+  };
   return (
     <form action='' className={style.form} onSubmit={handleSubmit}>
       <div className={style.inputContainer}>
@@ -311,17 +311,19 @@ export default function Form() {
             </div>
           </button>
         </div>
+
         {IdEro && (
           <div className={style.eroWrapper}>
             <p className={style.eroText}>{IdEro}</p>
           </div>
         )}
-        {!IdEro && isIdChecking && (
+        {isUsernameAvailable && (
           <div className={style.eroWrapper}>
-            <p className={style.idcheckText}>{'사용할 수 있는 아이디입니다.'}</p>
+            <p className={style.eroText}>{isUsernameAvailable}</p>
           </div>
         )}
       </div>
+      <button onClick={test}>테스트</button>
       <div className={style.inputContainer}>
         <label htmlFor='password' className={style.inputLabel}>
           비밀번호
@@ -455,12 +457,14 @@ export default function Form() {
           </div>
           <div>
             <input
-              type='text'
+              type='password'
               name='birthSex'
               className={style.intputSex}
               value={formData.birthSex}
               onChange={handleInputChange}
               onBlur={handleInputBlur}
+              pattern='[0-9]*'
+              maxLength={1}
             ></input>
           </div>
           <div className={style.inputText}>
@@ -478,11 +482,6 @@ export default function Form() {
           </div>
         )}
       </div>
-      {isFormValid || (
-        <div className={style.eroWrapper}>
-          <p className={style.eroText}>{'모든 필드를 입력해주세요'}</p>
-        </div>
-      )}
       <button type='submit' className={style.register}>
         <div>
           <span>가입하기</span>
