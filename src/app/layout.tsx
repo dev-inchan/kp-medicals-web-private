@@ -4,6 +4,7 @@ import '@/styles/globals.scss';
 import localFont from 'next/font/local';
 import RQProvider from '@/components/RQProvider/RQProvider';
 import { MSWComponent } from '@/components/MSWComponent/MSWComponent';
+import { Suspense } from 'react';
 
 // Pretendard 폰트 설정
 const pretendard = localFont({
@@ -27,8 +28,10 @@ export default function RootLayout({
       <body className={pretendard.className}>
         <MSWComponent />
         <RQProvider>
-          <div id='modal'></div>
-          {children}
+          <Suspense>
+            <div id='modal'></div>
+            {children}
+          </Suspense>
         </RQProvider>
       </body>
     </html>
