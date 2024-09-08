@@ -18,11 +18,7 @@ build-staging: ## Build the staging docker image.
 
 .PHONY: start-staging
 start-staging: ## Start the staging docker container.
-	 docker compose -f docker/staging/docker-compose.yml up -d
-
-.PHONY: stop-staging
-stop-staging: ## Stop the staging docker container.
-	 docker compose -f docker/staging/docker-compose.yml down
+	 docker compose -f ../docker-compose.yml up -d
   
 # For main production server 
 .PHONY: build-production
