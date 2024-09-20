@@ -1,0 +1,111 @@
+.section {
+  padding-bottom: 200px;
+  border: 1px solid #ddd; /* 더 부드러운 색상 */
+  border-radius: 8px; /* 모서리를 부드럽게 */
+  // overflow: hidden;
+}
+
+.title {
+  padding: 0px 24px;
+  margin: 40px 0px 32px;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 32px;
+}
+.reserve_title {
+  padding: 20px 24px;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 24px;
+  color: rgb(28, 29, 31);
+  margin-left: 8px;
+}
+
+.reserve_list {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  gap: 16px;
+  background-color: rgb(247, 249, 250); // 기본 설정은 데스크톱 또는 노트북의 최대값 768px
+  width: 600px;
+  margin: 0 auto; // 가운데 정렬
+
+  // 모바일 화면일 경우
+  @media (max-width: 768px) {
+    width: 365px;
+  }
+}
+
+.reserve_item {
+  cursor: pointer;
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  width: 100%;
+  border-radius: 12px;
+  border: 1.5px solid rgb(223, 225, 226);
+  background-color: rgb(255, 255, 255);
+  padding: 14.5px;
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 4px 12px 0px;
+}
+.item_img_wrapper {
+  margin-right: 16px;
+  border-radius: 16px;
+  background-color: rgb(237, 239, 240);
+}
+
+.img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+}
+
+.doctor_name_wrapper {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.departmentName_wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.departmentName {
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 6px;
+
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  color: rgb(113, 118, 122);
+  background-color: rgb(247, 249, 250);
+}
+.reservation_date_wrapper,
+.reservation_name_wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.ddd {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.no_data {
+  width: 600px;
+  padding: 0px 24px;
+  margin: 40px 0px 32px;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 32px;
+}

@@ -11,10 +11,10 @@ start-development: ## Start the development docker container.
 stop-development: ## Stop the development docker container.
 	 docker compose -f docker/development/docker-compose.yml down
 
-# For test server before production
-.PHONY: build-staging
-build-staging: ## Build the staging docker image.
-	 docker compose -f docker/staging/docker-compose.yml build
+# # For test server before production
+# .PHONY: build-staging
+# build-staging: ## Build the staging docker image.
+# 	 docker compose -f docker/staging/docker-compose.yml build
 
 .PHONY: start-staging
 start-staging: ## Start the staging docker container.

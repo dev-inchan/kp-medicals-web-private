@@ -12,7 +12,7 @@ export interface ResponseData {
   error_stack: string;
 }
 
-interface Hospital {
+export interface Hospital {
   hospital_id: number;
   hospital_name: string;
   location: string;
@@ -21,6 +21,7 @@ interface Hospital {
   department_id: string[];
   img_url: string[];
   marked: number;
+  phone: string;
 }
 
 interface Doctor {

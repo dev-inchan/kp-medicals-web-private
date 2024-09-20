@@ -8,8 +8,11 @@ import hamburger_icon from '@/../public/hamburger_icon.png';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Modal from '@/components/modal';
+import Modalv2 from '@/components/modalv2';
 import LoginModal from '@/containers/login_modal';
 import { getToken, deleteToken } from '@/utils/token';
+import HospitalDetailModal from '@/containers/find/modal/hospitalDetail/HospitalDetailModal';
+import BookingManageModal from './BookingManageModal/BookingManageModal';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -111,16 +114,31 @@ const BeforeLoginDesktop: React.FC<BeforeLoginDesktopProps> = ({ setIsModalOpen 
 
 //  로그인 후 텍스트 표시
 const AfterLoginDesktop = () => {
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+
   const logout = () => {
     deleteToken();
     window.location.reload(); // 현재 페이지 새로고침
   };
 
+  const 예약모달 = () => {
+    setIsBookingModalOpen(true);
+  };
+
+  const closeBookingManageModal = () => {
+    setIsBookingModalOpen(false);
+  };
   return (
     <>
+      <li className={style.ulItem} onClick={예약모달}>
+        예약관리
+      </li>
       <li className={style.ulItem} onClick={logout}>
         로그아웃
       </li>
+      <Modalv2 open={isBookingModalOpen} onClose={() => setIsBookingModalOpen(false)} width='360px' height='600px'>
+        <BookingManageModal closeBookingManageModal={closeBookingManageModal} />
+      </Modalv2>
     </>
   );
 };

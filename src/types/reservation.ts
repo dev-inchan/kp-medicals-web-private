@@ -52,10 +52,10 @@ export interface ReservationRequest {
   uid: string | undefined;
   hospitalId: number;
   staffId: number;
-  date: string;
+  date: string | null;
   time: string;
   purpose: string;
-  timeSlot: string;
+  timeSlot: string | null;
 }
 export interface ReservationResponse {
   status: number;

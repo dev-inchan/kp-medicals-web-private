@@ -9,6 +9,19 @@ const nextConfig = {
     config.resolve.alias['@'] = path.resolve(dirname(fileURLToPath(import.meta.url)), 'src');
     return config;
   },
+  async rewrites() {
+    // 로컬 개발 환경에서만 프록시 적용
+    // if (process.env.NODE_ENV === 'development') {
+    //   return [
+    //     {
+    //       source: '/api/:path*', // 클라이언트가 접근하는 경로
+    //       destination: 'https://localhost:80/api/:path*', // 프록시할 외부 서버
+    //     },
+    //   ];
+    // }
+    // 프로덕션 모드에서는 rewrites 사용 안 함
+    return [];
+  },
 };
 
 export default nextConfig;

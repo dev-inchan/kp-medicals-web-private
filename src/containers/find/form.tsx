@@ -30,7 +30,7 @@ export default function Form({ keyword, setKeyword, handleChange, handleSearch, 
       setKeyword(localKeyword);
       handleSearch();
     } else {
-      alert('입력해주세요');
+      alert('지역을 입력해주세요');
     }
   };
 

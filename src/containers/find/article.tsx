@@ -1,16 +1,19 @@
 'use client';
 import style from './article.module.scss';
-import Image from 'next/image';
-import testDoctor from '@/../public/testDoctor.png';
 import { Hospital } from '@/types/hospital';
 import { useEffect, useState } from 'react';
 import { fa } from '@faker-js/faker';
 import Modal from '@/components/modal';
-import ReserveModal from './modal/ReserveModal';
+// import ReserveModal from './modal/Reserve/1';
 import LoginModal from '@/containers/login_modal';
 import { getToken } from '@/utils/token';
-import HospitalDetailModal from './modal/HospitalDetailModal';
+import HospitalDetailModal from './modal/hospitalDetail/HospitalDetailModal';
 import { getDepartmentName } from '@/utils/getDepartmentName';
+// import SelectDoctorModal from './modal/selectDoctor/1';
+import { Doctor, Schedule } from '@/types/reservation';
+import Modalv2 from '@/components/modalv2';
+import ReserveModal from './modal/Reserve/ReserveModal';
+import SelectDoctorModal from './modal/selectDoctor/SelectDoctorModal';
 
 interface Props {
   hospital: Hospital;
@@ -21,6 +24,8 @@ export default function Article({ hospital }: Props) {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isHospitalDetailModal, setIsHospitalDetailModal] = useState(false);
   const [departmentName, setDeapartmentName] = useState<string[] | null>(null);
+  const [modalPage, setModalPage] = useState(1); // 모달 페이지 상태
+  const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
 
   useEffect(() => {
     if (!departmentName) {
@@ -34,6 +39,7 @@ export default function Article({ hospital }: Props) {
   };
   const handleReserveModal = () => {
     setIsModalOpen(!isModalOpen);
+    setModalPage(1);
   };
 
   const handleHospitalDetailModal = () => {
@@ -46,6 +52,20 @@ export default function Article({ hospital }: Props) {
     } else {
       setIsLoginModalOpen(true);
     }
+  };
+
+  const reservationClose = () => {
+    setIsModalOpen(false);
+    setModalPage(1);
+  };
+
+  // 모달 페이지를 변경하는 함수
+  const goToNextModal = () => {
+    setModalPage(2); // 다음 페이지로 이동
+  };
+
+  const selectDoctor = (doctor: Doctor) => {
+    setSelectedDoctor(doctor);
   };
 
   console.log(hospital);
@@ -82,7 +102,7 @@ export default function Article({ hospital }: Props) {
                 <div className={style['content1-department']}>
                   <h3>
                     <span>
-                      Hours: {hospital.start_time} - {hospital.end_time}
+                      진료시간: {hospital.start_time} - {hospital.end_time}
                     </span>
                   </h3>
                 </div>
@@ -101,15 +121,31 @@ export default function Article({ hospital }: Props) {
         </div>
       </div>
 
-      <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)} width='360px' height='600px'>
-        <ReserveModal handleReserveModal={handleReserveModal} hospitalId={hospital.hospital_id} />
-      </Modal>
+      <Modalv2 open={isModalOpen} onClose={() => reservationClose()}>
+        {modalPage === 1 ? (
+          <SelectDoctorModal
+            selectDoctor={selectDoctor}
+            hospital_id={hospital.hospital_id}
+            goToNextModal={goToNextModal}
+          />
+        ) : (
+          <ReserveModal
+            handleReserveModal={handleReserveModal}
+            hospitalId={hospital.hospital_id}
+            selectedDoctor={selectedDoctor}
+          />
+        )}
+      </Modalv2>
       <Modal open={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)}>
         <LoginModal handleLoginModal={handleLoginModal} />
       </Modal>
-      <Modal open={isHospitalDetailModal} onClose={() => setIsHospitalDetailModal(false)}>
-        <HospitalDetailModal hospital_id={hospital.hospital_id} handleHospitalDetailModal={handleHospitalDetailModal} />
-      </Modal>
+      <Modalv2 open={isHospitalDetailModal} onClose={() => setIsHospitalDetailModal(false)}>
+        <HospitalDetailModal
+          hospital={hospital}
+          hospital_id={hospital.hospital_id}
+          handleHospitalDetailModal={handleHospitalDetailModal}
+        />
+      </Modalv2>
     </article>
   );
 }

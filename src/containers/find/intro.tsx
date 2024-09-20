@@ -3,8 +3,8 @@ import style from './intro.module.scss';
 import leftHand from '@/../public/find-leftarm.png';
 import rightHand from '@/../public/find-rightarm.png';
 
-const h1Text = 'Book an in-network doctor near you';
-const h2Text = 'Find, compare and book with highly-rated, in-network doctors';
+const h1Text = '가까운 병원에서 진료 예약하기';
+const h2Text = '';
 
 export default function Intro() {
   return (

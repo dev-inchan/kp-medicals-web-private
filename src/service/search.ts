@@ -1,5 +1,5 @@
 import { HospitalResponse } from '@/types/hospital';
-
+import { getBaseUrl } from '@/utils/api';
 /**
  * 병원검색 요청 api
  */
@@ -11,8 +11,7 @@ export const getHospitals = async (
 ): Promise<HospitalResponse> => {
   console.log('병원검색요청');
   const response = await fetch(
-    process.env.NEXT_PUBLIC_URL +
-      `api/medical-wallet/hospitals?department_id=${encodeURIComponent(department_id)}&keyword=${encodeURIComponent(keyword)}&start=${start}&limit=${limit}`,
+    `${process.env.NEXT_PUBLIC_URL}api/medical-wallet/hospitals?department_id=${encodeURIComponent(department_id)}&keyword=${encodeURIComponent(keyword)}&start=${start}&limit=${limit}`,
     {
       method: 'GET',
       headers: {

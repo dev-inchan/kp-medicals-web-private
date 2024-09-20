@@ -15,15 +15,16 @@
   left: 50%;
   transform: translate(-50%, -50%);
   overflow-y: auto;
-
+  min-width: 375px;
   background-color: #ffffff;
   z-index: 5;
   padding: 24px;
   margin: auto;
-  // width: 360px !important;
-  // height: 360px;
+  max-width: 800px;
+  height: 100%;
   background-color: #fff;
   border-radius: 6px;
+  scrollbar-width: none;
 }
 
 .modalClose {

@@ -1,33 +1,42 @@
 import { HospitalDetail, ReservationRequest, ReservationResponse } from '@/types/reservation';
 
+const API_URL = process.env.NEXT_PUBLIC_URL;
+const UID = process.env.NEXT_PUBLIC_UID;
+
 /**
- * 병원 예약 상세 정보 요청 api
+ * 병원 예약 상세 정보 요청 API
  */
 export const getHospitalDetail = async (accessToken: string | null, hospitalId: number): Promise<HospitalDetail> => {
   console.log('getHospitalDetail');
+
   if (!accessToken) {
     throw new Error('Access token is required');
   }
 
   const today = new Date().toISOString().split('T')[0]; // 오늘 날짜를 yyyy-mm-dd 형식으로 변환
 
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}api/medical-wallet/hospitals/detail?access_token=${encodeURIComponent(accessToken)}&uid=${encodeURIComponent(`${process.env.NEXT_PUBLIC_UID}`)}&hospital_id=${hospitalId}&date=${encodeURIComponent(today)}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
+  try {
+    const response = await fetch(
+      `${API_URL}api/medical-wallet/hospitals/detail?access_token=${encodeURIComponent(accessToken)}&uid=${encodeURIComponent(`${UID}`)}&hospital_id=${hospitalId}&date=${encodeURIComponent(today)}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    },
-  );
+    );
 
-  const result: HospitalDetail = await response.json();
+    if (!response.ok) {
+      const errorMessage = await response.text(); // 서버로부터 받은 에러 메시지 추출
+      throw new Error(errorMessage || 'Network response was not ok');
+    }
 
-  if (!response.ok) {
-    throw new Error(result.message || 'Network response was not ok');
+    const result: HospitalDetail = await response.json();
+    return result;
+  } catch (error: any) {
+    console.error('Error fetching hospital details:', error.message);
+    throw new Error(`Failed to fetch hospital details: ${error.message}`);
   }
-
-  return result;
 };
 
 /**
@@ -44,31 +53,36 @@ export const createHospitalReservation = async ({
   timeSlot,
 }: ReservationRequest): Promise<ReservationResponse> => {
   if (!accessToken || !uid) {
-    throw new Error('Access token is required');
+    throw new Error('Access token and UID are required');
   }
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/medical-wallet/hospitals/reservations`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      access_token: accessToken,
-      uid: uid,
-      hospital_id: hospitalId,
-      staff_id: staffId,
-      date: date,
-      time: time,
-      purpose: purpose,
-      time_slot: timeSlot,
-    }),
-  });
+  try {
+    const response = await fetch(`${API_URL}api/medical-wallet/hospitals/reservations`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        access_token: accessToken,
+        uid: uid,
+        hospital_id: hospitalId,
+        staff_id: staffId,
+        date: date,
+        time: time,
+        purpose: purpose,
+        time_slot: timeSlot,
+      }),
+    });
 
-  const result: ReservationResponse = await response.json();
+    if (!response.ok) {
+      const errorMessage = await response.text(); // 서버로부터 받은 에러 메시지 추출
+      throw new Error(errorMessage || 'Network response was not ok');
+    }
 
-  if (!response.ok) {
-    throw new Error(result.message || 'Network response was not ok');
+    const result: ReservationResponse = await response.json();
+    return result;
+  } catch (error: any) {
+    console.error('Error creating hospital reservation:', error.message);
+    throw new Error(`Failed to create hospital reservation: ${error.message}`);
   }
-
-  return result;
 };

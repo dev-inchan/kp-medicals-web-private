@@ -11,6 +11,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { getHospitals } from '@/service/search';
 import { OptionType } from '@/types/selectDoctor';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function Find() {
   const [keyword, setKeyword] = useState<string>(''); // 검색어
@@ -18,6 +19,8 @@ export default function Find() {
   const [searchParams, setSearchParams] = useState({ keyword: '', departmentId: 0 }); // 실제 쿼리에 사용할 검색 상태
   const searchparam = useSearchParams();
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   const handleChange = (option: OptionType | null) => {
     setSelectDepart(option);
     console.log('선택한 옵션 :', option);
@@ -63,6 +66,8 @@ export default function Find() {
     staleTime: 60 * 1000, // fresh -> stale, 5분이라는 기준
     gcTime: 300 * 1000,
   });
+
+  console.log(data);
 
   useEffect(() => {
     // 다음페이지가 있을때 다음페이지 요청

@@ -15,7 +15,7 @@ export const getHospitalDetail = async (hospital_id: number): Promise<HospitalDe
     }
 
     const data: HospitalDetailResponse = await response.json();
-
+    // console.log('병원상세 :', data);
     return data;
   } catch (error) {
     console.error('Fetch error:', error);

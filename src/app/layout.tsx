@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import '@/styles/globals.scss';
-
+import Head from 'next/head';
 import localFont from 'next/font/local';
 import RQProvider from '@/components/RQProvider/RQProvider';
 import { MSWComponent } from '@/components/MSWComponent/MSWComponent';
@@ -25,6 +25,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko'>
+      <Head>
+        {/* 뷰포트 메타 태그 설정 */}
+        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+      </Head>
       <body className={pretendard.className}>
         <MSWComponent />
         <RQProvider>
