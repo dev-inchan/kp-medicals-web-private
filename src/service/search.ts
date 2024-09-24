@@ -10,6 +10,8 @@ export const getHospitals = async (
   limit: number,
 ): Promise<HospitalResponse> => {
   console.log('병원검색요청');
+  const url = `${process.env.NEXT_PUBLIC_URL}api/medical-wallet/hospitals?department_id=${encodeURIComponent(department_id)}&keyword=${encodeURIComponent(keyword)}&start=${start}&limit=${limit}`;
+  console.log('url : ', url);
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_URL}api/medical-wallet/hospitals?department_id=${encodeURIComponent(department_id)}&keyword=${encodeURIComponent(keyword)}&start=${start}&limit=${limit}`,
     {
