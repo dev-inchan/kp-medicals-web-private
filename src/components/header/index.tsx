@@ -13,6 +13,7 @@ import LoginModal from '@/containers/login_modal';
 import { getToken, deleteToken } from '@/utils/token';
 import HospitalDetailModal from '@/containers/find/modal/hospitalDetail/HospitalDetailModal';
 import BookingManageModal from './BookingManageModal/BookingManageModal';
+import { autoLogin } from '@/service/auth';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -28,9 +29,29 @@ export default function Header() {
 
   useEffect(() => {
     const token = getToken();
-    if (token !== null) {
-      setIsToken(token);
-    }
+    // const autologin = autoLogin(token);
+    // console.log('autoLogin :', autologin);
+    // if (token !== null) {
+    //   setIsToken(token);
+    // }
+    const handleAutoLogin = async () => {
+      if (token !== null) {
+        const autologin = await autoLogin(token); // autoLogin 함수 호출
+        console.log('autoLogin :', autologin);
+
+        if (autologin?.status === 200) {
+          // // status가 200인 경우 토큰 저장
+          setIsToken(autologin.data.access_token);
+          console.log('토큰이 저장되었습니다:', autologin.data.access_token);
+        } else {
+          // status가 200이 아닌 경우 토큰 삭제
+          deleteToken(); // 토큰 삭제 함수
+          console.log('토큰이 삭제되었습니다');
+        }
+      }
+    };
+
+    handleAutoLogin(); // 비동기 함수 호출
   }, []);
 
   return (

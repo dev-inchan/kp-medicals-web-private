@@ -110,72 +110,6 @@ export default function Form() {
     setDobEro(errors.birthDate || '');
     setSexEro(errors.birthSex || '');
 
-    // // 모든 필드를 입력했는지 검사
-    // if (!Object.values(formData).every((value) => value.trim() !== '')) {
-    //   console.log('1');
-    //   setIsFormValid(false);
-    //   return;
-    // }
-
-    // // 아이디 정규식 검사 (아이디 아무것도 입력 안했을때 && 정규식에 맞지않게 입력했을때 )
-    // const isValid = /^[a-zA-Z0-9]{6,30}$/.test(formData.userid.trim());
-    // if (!isValid) {
-    //   setIdEro('아이디를 다시 확인해주세요');
-    //   return;
-    // }
-
-    // // 아이디 중복검사 했는지 여부
-    // if (!isIdChecking) {
-    //   // console.log('아이디중복확인');
-    //   setIsUsernameAvailable('아이디 중복검사를 해주세요');
-    //   return;
-    // }
-    // // 중복확인한 아이디와 입력한 아이디가 같은지 검사.
-    // if (checkedId !== formData.userid.trim()) {
-    //   setIdEro('아이디를 다시 입력해주세요');
-    //   return;
-    // }
-
-    // // 비밀번호 정규식 검사  (비밀번호 아무것도 입력 안했을때 && 정규식에 맞지않게 입력했을때 )
-    // const isPawValid = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,30}$/.test(
-    //   formData.password.trim(),
-    // );
-    // if (!isPawValid) {
-    //   setPawEro('비밀번호를 다시 확인해주세요');
-    //   return;
-    // }
-
-    // // 입력한 비밀번호가 같은지 확인
-    // if (formData.password.trim() !== formData.confirmPassword.trim()) {
-    //   setConfirmPawEro('비밀번호가 일치하지 않습니다.');
-    //   setPawEro('비밀번호가 일치하지 않습니다.');
-    //   return;
-    // }
-
-    // // 이름 정규식 검사 (이름 아무것도 입력 안했을때 && 정규식에 맞지않게 입력했을때 )
-    // if (formData.name.trim().length < 2 || formData.name.trim().length > 10) {
-    //   setNameEro('이름은 2자 이상 10자 이하로 입력해주세요.');
-    //   return;
-    // }
-
-    // // 인증번호 확인했는지 검사.
-    // if (!isTelChecking) {
-    //   setTelEro('인증번호를 검사해주세요.');
-    //   return;
-    // }
-
-    // // 전화번호 정규식 검사 (전화번호 아무것도 입력 안했을때 && 정규식에 맞지않게 입력했을때)
-    // const isTellValid = /^[0-9]{10,11}$/.test(formData.phone.trim());
-    // if (!isTellValid) {
-    //   setTelEro('올바른 전화번호를 입력해주세요.');
-    //   return;
-    // }
-
-    // if (인증번호체크한핸드폰번호 !== formData.phone.trim()) {
-    //   setVerifyEro('인증번호를 다시 입력해주세요');
-    //   setTelEro('전화번호를 다시 입력해주세요');
-    //   return;
-    // }
     console.log('제출');
 
     try {
@@ -323,7 +257,7 @@ export default function Form() {
           </div>
         )}
       </div>
-      <button onClick={test}>테스트</button>
+      {/* <button onClick={test}>테스트</button> */}
       <div className={style.inputContainer}>
         <label htmlFor='password' className={style.inputLabel}>
           비밀번호
@@ -377,6 +311,8 @@ export default function Form() {
             value={formData.name}
             onChange={handleInputChange}
             onBlur={handleInputBlur}
+            maxLength={10}
+            minLength={2}
           ></input>
         </div>
         {NameEro && (
@@ -398,6 +334,7 @@ export default function Form() {
             onChange={handleInputChange}
             onBlur={handleInputBlur}
             placeholder=''
+            maxLength={11}
           ></input>
           <button type='button' className={style.subSend} onClick={handleSendVerificationCode}>
             <div>
@@ -450,6 +387,7 @@ export default function Form() {
               onChange={handleInputChange}
               onBlur={handleInputBlur}
               placeholder='생년월일 8자리'
+              maxLength={8}
             ></input>
           </div>
           <div className={style.inputText}>

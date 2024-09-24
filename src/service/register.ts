@@ -59,7 +59,8 @@ export const registerUser = async (userData: {
   birthSex: string;
 }): Promise<RegisterUserResponse> => {
   try {
-    const response = await fetch('https://kp-medicals.com/api/medical-wallet/users', {
+    const url = `${process.env.NEXT_PUBLIC_URL}api/medical-wallet/users`;
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

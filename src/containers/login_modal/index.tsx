@@ -10,9 +10,11 @@ type Props = {
   handleLoginModal: () => void;
 };
 
+const ERROR_MSG = `아이디 비밀번호를 다시 확인해주세요.`;
+
 export default function LoginModal({ handleLoginModal }: Props) {
   // const router = useRouter();
-
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     userid: '',
     password: '',
@@ -47,12 +49,13 @@ export default function LoginModal({ handleLoginModal }: Props) {
       // console.log('Success:', result);
       const { status, data } = result;
       if (status === 201) {
-        // console.log('로그인 성공');
+        console.log('로그인 성공');
         saveToken(data.access_token); // 토큰저장
         handleLoginModal();
         window.location.reload(); // 현재 페이지 새로고침
       } else {
         // console.log('로그인 실패 ');
+        setErrorMsg(ERROR_MSG);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -85,6 +88,11 @@ export default function LoginModal({ handleLoginModal }: Props) {
       {isFormValid || (
         <div className={style.eroWrapper}>
           <p className={style.eroText}>{'모든 필드를 입력해주세요'}</p>
+        </div>
+      )}
+      {errorMsg && (
+        <div className={style.eroWrapper}>
+          <p className={style.eroText}>{`${errorMsg}`}</p>
         </div>
       )}
     </div>

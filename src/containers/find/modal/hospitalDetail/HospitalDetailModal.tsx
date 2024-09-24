@@ -93,8 +93,6 @@ export default function HospitalDetailModal({ hospital, hospital_id, handleHospi
                   </li>
                 );
               })}
-              <li className={style.department_list_item}>피부과</li>
-              <li className={style.department_list_item}>성형외과</li>
             </ul>
           </div>
           <div className={style.horizontal_divider}></div>
