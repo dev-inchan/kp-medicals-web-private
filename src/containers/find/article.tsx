@@ -102,7 +102,13 @@ export default function Article({ hospital }: Props) {
                 <div className={style['content1-department']}>
                   <h3>
                     <span>
-                      진료시간: {hospital.start_time} - {hospital.end_time}
+                      {hospital.start_time === '00:00' && hospital.end_time === '00:00' ? (
+                        <div style={{ color: '#FF6B6B' }}>휴무</div>
+                      ) : (
+                        <>
+                          진료시간: {hospital.start_time} - {hospital.end_time}
+                        </>
+                      )}
                     </span>
                   </h3>
                 </div>
