@@ -10,17 +10,30 @@ export const getHospitals = async (
   limit: number,
 ): Promise<HospitalResponse> => {
   console.log('병원검색요청');
-  const url = `${process.env.NEXT_PUBLIC_URL}api/medical-wallet/hospitals?department_id=${encodeURIComponent(department_id)}&keyword=${encodeURIComponent(keyword)}&start=${start}&limit=${limit}`;
+  console.log('keyword : ', keyword);
+
+  // URLSearchParams를 사용해 필요한 파라미터를 동적으로 추가
+  const urlParams = new URLSearchParams({
+    department_id: String(department_id),
+    start: String(start),
+    limit: String(limit),
+  });
+
+  // keyword가 존재할 경우에만 파라미터로 추가
+  if (keyword.trim()) {
+    urlParams.append('keyword', keyword.trim());
+  }
+
+  const url = `${process.env.NEXT_PUBLIC_URL}api/medical-wallet/hospitals?${urlParams.toString()}`;
+
   console.log('url : ', url);
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}api/medical-wallet/hospitals?department_id=${encodeURIComponent(department_id)}&keyword=${encodeURIComponent(keyword)}&start=${start}&limit=${limit}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  );
+  });
 
   const result: HospitalResponse = await response.json();
 

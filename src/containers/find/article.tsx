@@ -4,12 +4,10 @@ import { Hospital } from '@/types/hospital';
 import { useEffect, useState } from 'react';
 import { fa } from '@faker-js/faker';
 import Modal from '@/components/modal';
-// import ReserveModal from './modal/Reserve/1';
 import LoginModal from '@/containers/login_modal';
 import { getToken } from '@/utils/token';
 import HospitalDetailModal from './modal/hospitalDetail/HospitalDetailModal';
 import { getDepartmentName } from '@/utils/getDepartmentName';
-// import SelectDoctorModal from './modal/selectDoctor/1';
 import { Doctor, Schedule } from '@/types/reservation';
 import Modalv2 from '@/components/modalv2';
 import ReserveModal from './modal/Reserve/ReserveModal';
@@ -37,6 +35,7 @@ export default function Article({ hospital }: Props) {
   const handleLoginModal = () => {
     setIsLoginModalOpen(!isModalOpen);
   };
+
   const handleReserveModal = () => {
     setIsModalOpen(!isModalOpen);
     setModalPage(1);
@@ -59,6 +58,10 @@ export default function Article({ hospital }: Props) {
     setModalPage(1);
   };
 
+  const handleModalOpen = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   // 모달 페이지를 변경하는 함수
   const goToNextModal = () => {
     setModalPage(2); // 다음 페이지로 이동
@@ -77,7 +80,6 @@ export default function Article({ hospital }: Props) {
             <div className={style['content1-div']}>
               <div className={style['content1-picture-div']}>
                 <picture>
-                  {/* <Image src={testDoctor} alt='testDoctor' className={style.doctorImg}></Image> */}
                   <img
                     src={hospital.icon}
                     alt='testDoctor'
@@ -92,8 +94,6 @@ export default function Article({ hospital }: Props) {
                 <div className={style['content1-h3-text']}>
                   <h3>
                     <span>{hospital.hospital_name}</span>
-                    {/* <span>Dr.</span>
-                    <span>Phuong</span> */}
                   </h3>
                 </div>
                 <div className={style['content1-department']}>
@@ -150,6 +150,7 @@ export default function Article({ hospital }: Props) {
           hospital={hospital}
           hospital_id={hospital.hospital_id}
           handleHospitalDetailModal={handleHospitalDetailModal}
+          handleModalOpen={handleModalOpen}
         />
       </Modalv2>
     </article>

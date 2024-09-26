@@ -62,7 +62,7 @@ export default function Header() {
             <li>
               <Link href='/'>
                 <div className={style.logoWrapper}>
-                  <Image src={Logo} alt='logo' layout='fill' />
+                  <Image src={Logo} alt='logo' width={48} height={48} />
                 </div>
               </Link>
             </li>

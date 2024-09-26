@@ -10,7 +10,7 @@
 }
 .hospital_img {
   max-width: 766px; /* 모달 너비를 넘지 않도록 설정 */
-  width: 100%;
+  width: 766px;
   // height: 400px; /* 모달 높이를 넘지 않도록 설정 */
   object-fit: contain; /* 이미지 비율을 유지하며 모달에 꽉 차도록 조정 */
   margin-bottom: 10px;
@@ -190,4 +190,35 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
+}
+.next_wrapper {
+  // position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+}
+.next_line {
+  height: 24px;
+  background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
+}
+.next_button_wrapper {
+  padding: 0px 24px 12px;
+  background-color: rgb(255, 255, 255);
+}
+.next_button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 26px;
+  color: rgb(255, 255, 255);
+  background-color: #148aff;
 }

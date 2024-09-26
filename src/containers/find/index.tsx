@@ -20,6 +20,7 @@ export default function Find() {
   const searchparam = useSearchParams();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const [canFetch, setCanFetch] = useState(false); // API 호출 가능 여부
 
   const handleChange = (option: OptionType | null) => {
     setSelectDepart(option);
@@ -27,7 +28,7 @@ export default function Find() {
   };
 
   const handleSearch = () => {
-    // 검색 버튼을 누르면 검색어와 선택한 진료과목을 기반으로 검색 상태를 업데이트
+    // 검색 버튼을 누르면 검색어와 선택한 진료과목 값으로 검색 상태를 업데이트
     const queryParams = new URLSearchParams();
     if (keyword && keyword.trim() !== '') {
       queryParams.append('keyword', keyword.trim());
@@ -52,8 +53,6 @@ export default function Find() {
   const { ref, inView } = useInView({ threshold: 0, delay: 0 });
 
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
-    // queryKey: ['posts', 'recommends'],
-    // queryKey: ['hospitals', keyword, selectDepart?.id], // 검색어와 진료과목을 queryKey에 포함
     queryKey: ['hospitals', searchParams.keyword, searchParams.departmentId], // 검색 상태를 기반으로 쿼리 실행
     queryFn: ({ pageParam = 0 }) => getHospitals(keyword, selectDepart?.id ?? 0, pageParam, 10),
     initialPageParam: 0,
@@ -62,12 +61,26 @@ export default function Find() {
       const totalLoadedHospitals = pages.flat().reduce((sum, page) => sum + page.data.hospitals.length, 0); // 로드된 총 데이터의 개수
       return lastPage.data.hospitals.length > 0 ? totalLoadedHospitals : undefined;
     },
-    enabled: !!keyword, // keyword가 있을 때만 쿼리 실행
-    staleTime: 60 * 1000, // fresh -> stale, 5분이라는 기준
+    enabled: !!keyword || !!searchParams.departmentId, // keyword가 있을 때만 쿼리 실행
+    staleTime: 0, // fresh -> stale, 5분이라는 기준
     gcTime: 300 * 1000,
   });
 
   console.log(data);
+
+  useEffect(() => {
+    const keyword = searchparam.get('keyword');
+    const departmentId = searchparam.get('department_id');
+
+    // URL 파라미터에서 검색어와 departmentId를 추출하여 설정
+    if (keyword || departmentId) {
+      setKeyword(keyword || '');
+      setSearchParams({
+        keyword: keyword || '',
+        departmentId: departmentId ? parseInt(departmentId) : 0,
+      });
+    }
+  }, [searchparam]);
 
   useEffect(() => {
     // 다음페이지가 있을때 다음페이지 요청
@@ -76,12 +89,19 @@ export default function Find() {
     }
   }, [inView, hasNextPage, isFetching, fetchNextPage]);
 
+  // useEffect(() => {
+  //   const keyword = searchparam.get('keyword');
+  //   if (keyword) {
+  //     setKeyword(keyword);
+  //   }
+  // }, []);
+
+  // searchParams가 업데이트되면 API 호출 가능하게 설정
   useEffect(() => {
-    const keyword = searchparam.get('keyword');
-    if (keyword) {
-      setKeyword(keyword);
+    if (searchParams.keyword || searchParams.departmentId) {
+      setCanFetch(true);
     }
-  }, []);
+  }, [searchParams]);
 
   return (
     <>

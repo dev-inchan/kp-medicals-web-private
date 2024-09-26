@@ -5,16 +5,26 @@ import { useQuery } from '@tanstack/react-query';
 import NaverMap from './naverMap';
 import { Hospital } from '@/types/hospital';
 import departmentData from '@/containers/home/Data/department';
+import { getToken } from '@/utils/token';
+import { useEffect, useState } from 'react';
 
 type Props = {
   hospital: Hospital;
   hospital_id: number;
   handleHospitalDetailModal: () => void;
+  handleModalOpen: () => void;
 };
 
 const ERROR_MSG = '병원 정보를 가져올 수 없습니다.';
 
-export default function HospitalDetailModal({ hospital, hospital_id, handleHospitalDetailModal }: Props) {
+export default function HospitalDetailModal({
+  hospital,
+  hospital_id,
+  handleHospitalDetailModal,
+  handleModalOpen,
+}: Props) {
+  const [token, setToken] = useState<string | null>(null);
+
   const { data, isLoading, isError } = useQuery({
     queryKey: ['hospitalDetail', hospital_id],
     queryFn: () => getHospitalDetail(hospital_id),
@@ -48,9 +58,18 @@ export default function HospitalDetailModal({ hospital, hospital_id, handleHospi
       return department ? department.name : '알 수 없음';
     });
   };
-  console.log('renderDepartment', renderDepartments());
-  console.log(hospital);
-  console.log(data);
+
+  useEffect(() => {
+    const token = getToken();
+    if (token) {
+      setToken(token);
+    }
+  }, []);
+
+  const onClickReserve = () => {
+    handleModalOpen(); // 예약모달 오픈
+    handleHospitalDetailModal(); // 현재모달 종료
+  };
 
   return (
     <>
@@ -127,6 +146,16 @@ export default function HospitalDetailModal({ hospital, hospital_id, handleHospi
               <p className={style.tel_content}>{hospitalDetail?.phone}</p>
             </div>
           </div>
+          {token && (
+            <div className={style.next_wrapper}>
+              <div className={style.next_line}></div>
+              <div className={style.next_button_wrapper}>
+                <button className={style.next_button} onClick={onClickReserve}>
+                  예약하기
+                </button>
+              </div>
+            </div>
+          )}
         </section>
       </section>
     </>

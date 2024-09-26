@@ -1,10 +1,12 @@
+const TOKEN = 'token';
+
 export function saveToken(token: string) {
-  localStorage.setItem('jjj', token);
+  localStorage.setItem(TOKEN, token);
 }
 export function getToken() {
-  return localStorage.getItem('jjj');
+  return localStorage.getItem(TOKEN);
 }
 
 export function deleteToken() {
-  localStorage.removeItem('jjj');
+  localStorage.removeItem(TOKEN);
 }

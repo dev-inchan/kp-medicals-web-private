@@ -1,9 +1,9 @@
 import '@/styles/globals.scss';
-import Introduction from './introduction';
+
 import SearchSection from './searchSection';
 import TopSearched from './topSearched';
 import Header from '@/components/header/index';
-
+import Footer from './footer';
 export default function Home() {
   return (
     <>
@@ -13,9 +13,8 @@ export default function Home() {
         <SearchSection />
         {/* Top Searched */}
         <TopSearched />
-        <Introduction />
-        <section></section>
       </main>
+      <Footer />
     </>
   );
 }

@@ -14,7 +14,7 @@ type Props = {
 
 const ERROR_MSG = '의사 정보를 가져올 수 없습니다.';
 
-export default function SelectTest({ selectDoctor, hospital_id, goToNextModal }: Props) {
+export default function SelectDoctorModal({ selectDoctor, hospital_id, goToNextModal }: Props) {
   const [selectedDoctorId, setSelectedDoctorId] = useState<number | null>(null); // 선택된 의사의 ID를 저장
   const { data, isLoading, isError } = useQuery({
     queryKey: ['hospitalDetail', hospital_id],
