@@ -40,6 +40,7 @@ export const getHospitals = async (
   if (!response.ok) {
     throw new Error(result.message || 'Network response was not ok');
   }
+
   console.log('병원검색결과:', result);
   return result;
 };

@@ -61,12 +61,13 @@ export default function Find() {
       const totalLoadedHospitals = pages.flat().reduce((sum, page) => sum + page.data.hospitals.length, 0); // 로드된 총 데이터의 개수
       return lastPage.data.hospitals.length > 0 ? totalLoadedHospitals : undefined;
     },
-    enabled: !!keyword || !!searchParams.departmentId, // keyword가 있을 때만 쿼리 실행
+    // enabled: !!keyword || !!searchParams.departmentId, // keyword가 있을 때만 쿼리 실행
+    enabled: !!canFetch,
     staleTime: 0, // fresh -> stale, 5분이라는 기준
     gcTime: 300 * 1000,
   });
 
-  console.log(data);
+  console.log('검색결과 :', data);
 
   useEffect(() => {
     const keyword = searchparam.get('keyword');
