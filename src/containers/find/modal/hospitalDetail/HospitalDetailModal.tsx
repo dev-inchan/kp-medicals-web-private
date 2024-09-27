@@ -72,7 +72,11 @@ export default function HospitalDetailModal({
     handleModalOpen(); // 예약모달 오픈
     handleHospitalDetailModal(); // 현재모달 종료
   };
-
+  const images = [
+    { src: '/images/image1.jpg', alt: 'Image 1' },
+    { src: '/images/image2.jpg', alt: 'Image 2' },
+    { src: '/images/image3.jpg', alt: 'Image 3' },
+  ];
   return (
     <>
       <section className={style.hospital_section}>
@@ -84,6 +88,7 @@ export default function HospitalDetailModal({
                 className={style.hospital_img}
               />
             )}
+            {/* <ImageCarousel images={images} /> */}
             {/* <img className={style.hospital_img} src={hospitalDetail?.img_url[0]}></img> */}
           </div>
           <div className={style.hospital_name_wrapper}>
