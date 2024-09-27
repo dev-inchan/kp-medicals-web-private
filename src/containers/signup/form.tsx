@@ -17,6 +17,7 @@ import {
   validatePhoneNumber,
   validateVerificationCodeInput,
 } from './validation';
+import { error } from 'console';
 
 export default function Form() {
   const router = useRouter();
@@ -112,6 +113,11 @@ export default function Form() {
 
     console.log('제출');
 
+    if (Object.keys(errors).length > 0) {
+      console.log('errors :', errors);
+      return;
+    }
+    //return;
     try {
       const result = await registerUser({
         userid: formData.userid.trim(),
@@ -219,10 +225,6 @@ export default function Form() {
     }
   };
 
-  const test = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    console.log(isUsernameAvailable);
-  };
   return (
     <form action='' className={style.form} onSubmit={handleSubmit}>
       <div className={style.inputContainer}>

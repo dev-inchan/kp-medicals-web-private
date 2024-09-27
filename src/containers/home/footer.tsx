@@ -3,7 +3,7 @@ import Image from 'next/image';
 import footer from '@/../public/footer.webp';
 
 const EMAIL = 'knpuniverse@gmail.com';
-const BUSINEESE_NUM = '000-00-00000';
+const BUSINEESE_NUM = '607-45-72039';
 export default function Footer() {
   return (
     <footer className={style.footer_container}>

@@ -41,8 +41,6 @@ WORKDIR /app
 # 환경 변수를 production으로 설정
 ENV NODE_ENV=production 
 
-# RUN addgroup -g 1001 -S nodejs
-# RUN adduser -S nextjs -u 1001
 
 # nodejs 그룹과 nextjs 유저를 생성
 RUN addgroup --gid 1001 nodejs

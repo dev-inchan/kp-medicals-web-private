@@ -7,6 +7,7 @@ import { Hospital } from '@/types/hospital';
 import departmentData from '@/containers/home/Data/department';
 import { getToken } from '@/utils/token';
 import { useEffect, useState } from 'react';
+import ImageCarousel from './ImageCarousel';
 
 type Props = {
   hospital: Hospital;
@@ -37,7 +38,7 @@ export default function HospitalDetailModal({
 
   const hospitalDetail = data?.data?.hospital ?? null;
   const mainSchedules = data?.data?.doctors[0]?.main_schedules[0] ?? null;
-
+  console.log('hospitalDetail :', hospitalDetail);
   const renderBreakTime = () => {
     if (!mainSchedules) {
       return '확인필요'; // 스케줄 데이터가 없을 때
@@ -53,7 +54,8 @@ export default function HospitalDetailModal({
 
   //const test = [1, 2, 3];
   const renderDepartments = () => {
-    return hospital?.department_id.map((departmentId) => {
+    console.log('hospital :', hospital);
+    return hospitalDetail?.department_id.map((departmentId) => {
       const department = departmentData.find((dep) => dep.id === parseInt(departmentId));
       return department ? department.name : '알 수 없음';
     });
@@ -76,7 +78,13 @@ export default function HospitalDetailModal({
       <section className={style.hospital_section}>
         <section>
           <div className={style.hospital_img_wrapper}>
-            <img className={style.hospital_img} src={hospitalDetail?.img_url[0]}></img>
+            {hospitalDetail?.img_url && (
+              <ImageCarousel
+                images={hospitalDetail.img_url.map((url) => ({ src: url, alt: hospitalDetail.hospital_name }))}
+                className={style.hospital_img}
+              />
+            )}
+            {/* <img className={style.hospital_img} src={hospitalDetail?.img_url[0]}></img> */}
           </div>
           <div className={style.hospital_name_wrapper}>
             <div className={style.hospital_name}>{hospitalDetail?.hospital_name}</div>
@@ -113,7 +121,7 @@ export default function HospitalDetailModal({
               <h2 className={style.department_title_content}>진료과목</h2>
             </div>
             <ul className={style.department_list}>
-              {renderDepartments().map((dep_name, index) => {
+              {renderDepartments()?.map((dep_name, index) => {
                 return (
                   <li key={index} className={style.department_list_item}>
                     {dep_name}
