@@ -127,7 +127,7 @@ export const useReservationLogic = ({ selectedDoctor }: UseReservationLogicParam
     const maxReservation = schedule.max_reservation;
     // console.log('maxReservation :', maxReservation);
     // console.log('reservedTimes[slot] :', reservedTimes[slot]);
-    // console.log('reservedTimes :', reservedTimes);
+    console.log('reservedTimes :', reservedTimes);
     return (reservedTimes[slot] || 0) >= maxReservation; // 예약된 시간이 max_reservation 이상인지 확인
   };
   return {
