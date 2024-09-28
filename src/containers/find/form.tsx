@@ -26,12 +26,17 @@ export default function Form({ keyword, setKeyword, handleChange, handleSearch, 
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    if (localKeyword && selectDepart) {
+
+    if (localKeyword) {
       setKeyword(localKeyword);
-      handleSearch();
-    } else {
-      alert('지역을 입력해주세요');
     }
+    handleSearch(); // 검색 실행
+    // if (localKeyword && selectDepart) {
+    //   setKeyword(localKeyword);
+    //   handleSearch();
+    // } else {
+    //   alert('지역을 입력해주세요');
+    // }
   };
 
   return (

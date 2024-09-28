@@ -1,3 +1,4 @@
+// 해당 요일이 휴일이면 true 반환
 export function isDayOff(dayoff: string, dayOfWeek: number): boolean {
   // getDay()가 0이면 일요일이므로 dayoff[6]과 매칭, 나머지는 getDay() - 1
   const dayOffIndex = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
@@ -6,18 +7,20 @@ export function isDayOff(dayoff: string, dayOfWeek: number): boolean {
 
 export function generateTimeSlots(startTime: string, endTime: string, timeSlot: number) {
   const slots = [];
+  // 시작시간과 죵료시간을 시간과 분으로 분리.
   let [currentHour, currentMinute] = startTime.split(':').map(Number);
-
   const [endHour, endMinute] = endTime.split(':').map(Number);
 
+  // 현재 시간이 종료 시간보다 빠르거나 같을때 까지
   while (currentHour < endHour || (currentHour === endHour && currentMinute < endMinute)) {
     const time = `${String(currentHour).padStart(2, '0')}:${String(currentMinute).padStart(2, '0')}`;
     slots.push(time);
 
-    currentMinute += timeSlot;
+    currentMinute += timeSlot; // 분에 예약 시간 간격을 더함
     if (currentMinute >= 60) {
-      currentHour += 1;
-      currentMinute -= 60;
+      // 만약 분이 60 이상이 되면
+      currentHour += 1; // 시간을 1시간 증가시키고
+      currentMinute -= 60; // 분에서 60을 뺌 (분을 0~59로 유지)
     }
   }
 
@@ -52,6 +55,8 @@ export function formatDateToYYYYMMDD(day: number): string {
 
   return `${yearString}-${monthString}-${dayString}`;
 }
+
+// api 요청사항에 맞추기 위해 선택한 날짜를 year-month-day 형식으로 포맷
 export function formatDate(date: Date): string {
   const year = date.getFullYear(); // 연도 추출
   const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1, 두 자리 숫자로 변환

@@ -13,7 +13,7 @@ type Props = {
   selectedDoctor: Doctor | null;
 };
 
-export default function ReserveTest({ handleReserveModal, hospitalId, selectedDoctor }: Props) {
+export default function ReserveModal({ handleReserveModal, hospitalId, selectedDoctor }: Props) {
   const {
     dates, // 예약 가능한 날짜 목록 관리
     selectedDate, // 사용자가 선택한 날짜를 관리
@@ -24,9 +24,11 @@ export default function ReserveTest({ handleReserveModal, hospitalId, selectedDo
     isSelectDate, // 시간 선택 유무
     interval, // 예약시간 간격
     selectedDateFormat, //  선택한 날짜를 포맷하여 관리 (예 : 2024-09-01)
+    reservedTimes,
     handleDateClick,
     timeClick,
   } = useReservationLogic({ selectedDoctor });
+
   const mutation = useMutation<ReservationResponse, Error, ReservationRequest>({
     mutationFn: createHospitalReservation,
     onSuccess: (data) => {
@@ -103,8 +105,9 @@ export default function ReserveTest({ handleReserveModal, hospitalId, selectedDo
             <div>
               <p className={style.morning_title}>오전</p>
               <div className={style.time_button_wrapper}>
-                {morningSlots.length > 0 ? (
+                {/* {morningSlots.length > 0 ? (
                   morningSlots.map((slot, index) => (
+                    
                     <button
                       key={index}
                       className={`${style.time_button} ${selectedTime === slot ? style.time_selected : ''}`}
@@ -115,13 +118,33 @@ export default function ReserveTest({ handleReserveModal, hospitalId, selectedDo
                   ))
                 ) : (
                   <p>예약 가능한 시간이 없습니다.</p>
+                )} */}
+                {morningSlots.length > 0 ? (
+                  morningSlots.map((slot, index) => {
+                    const isReserved = reservedTimes.includes(slot);
+                    console.log('isReserved :', isReserved);
+                    return (
+                      <button
+                        key={index}
+                        className={`${style.time_button} ${selectedTime === slot ? style.time_selected : ''} ${
+                          isReserved ? style.time_disabled : ''
+                        }`}
+                        onClick={() => !isReserved && timeClick(slot)}
+                        disabled={isReserved} // 예약된 시간일 경우 버튼 비활성화
+                      >
+                        {slot}
+                      </button>
+                    );
+                  })
+                ) : (
+                  <p>예약 가능한 시간이 없습니다.</p>
                 )}
               </div>
             </div>
             <div>
               <p className={style.morning_title}>오후</p>
               <div className={style.time_button_wrapper}>
-                {afternoonSlots.length > 0 ? (
+                {/* {afternoonSlots.length > 0 ? (
                   afternoonSlots.map((slot, index) => (
                     <button
                       key={index}
@@ -131,6 +154,25 @@ export default function ReserveTest({ handleReserveModal, hospitalId, selectedDo
                       {slot}
                     </button>
                   ))
+                ) : (
+                  <p>예약 가능한 시간이 없습니다.</p>
+                )} */}
+                {afternoonSlots.length > 0 ? (
+                  afternoonSlots.map((slot, index) => {
+                    const isReserved = reservedTimes.includes(slot);
+                    return (
+                      <button
+                        key={index}
+                        className={`${style.time_button} ${selectedTime === slot ? style.time_selected : ''} ${
+                          isReserved ? style.time_disabled : ''
+                        }`}
+                        onClick={() => !isReserved && timeClick(slot)}
+                        disabled={isReserved} // 예약된 시간일 경우 버튼 비활성화
+                      >
+                        {slot}
+                      </button>
+                    );
+                  })
                 ) : (
                   <p>예약 가능한 시간이 없습니다.</p>
                 )}

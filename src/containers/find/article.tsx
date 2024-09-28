@@ -71,7 +71,7 @@ export default function Article({ hospital }: Props) {
     setSelectedDoctor(doctor);
   };
 
-  console.log(hospital);
+  //console.log(hospital);
   return (
     <article className={style.article}>
       <div className={style.contentWrapper}>

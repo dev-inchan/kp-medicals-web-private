@@ -130,8 +130,14 @@
   border: 1px solid rgb(61, 69, 81);
 }
 
+.time_disabled {
+  color: rgb(150, 150, 150); /* 글자 색상을 흐리게 */
+  background-color: rgb(240, 240, 240); /* 배경 색상을 흐리게 */
+  border: 1px solid rgb(200, 200, 200); /* 테두리 색상도 약하게 */
+}
+
 .next_wrapper {
-  position: absolute;
+  // position: absolute;
   left: 0px;
   right: 0px;
   bottom: 0px;

@@ -86,3 +86,37 @@ export const createHospitalReservation = async ({
     throw new Error(`Failed to create hospital reservation: ${error.message}`);
   }
 };
+
+// 의사 특정예약일 조회
+export const getDoctorReservation = async (access_token: string | null, date: string, staff_id: string) => {
+  if (!access_token) {
+    throw new Error('Acces token is required');
+  }
+
+  const params = new URLSearchParams({
+    access_token: access_token,
+    uid: UID || '',
+    date: date,
+    staff_id: staff_id,
+  });
+  console.log('access_token : ', access_token);
+  console.log('date :', date);
+  console.log('staff_id :', staff_id);
+  console.log('uid :', UID);
+
+  const url = `${API_URL}api/medical-wallet/hospitals/reservations/list/doctor?${params.toString()}`;
+
+  try {
+    const respnse = await fetch(url);
+
+    if (!respnse.ok) {
+      const errorMessage = await respnse.text();
+      throw new Error(errorMessage || 'Network reponse not ok');
+    }
+    const result = await respnse.json();
+    return result;
+  } catch (error) {
+    console.error('Error fetching doctor reservations:', error);
+    throw new Error(`Failed to fetch doctor reservations: ${error}`);
+  }
+};

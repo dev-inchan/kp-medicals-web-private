@@ -24,7 +24,7 @@ export default function Find() {
 
   const handleChange = (option: OptionType | null) => {
     setSelectDepart(option);
-    console.log('선택한 옵션 :', option);
+    // console.log('선택한 옵션 :', option);
   };
 
   const handleSearch = () => {
@@ -62,12 +62,12 @@ export default function Find() {
       return lastPage.data.hospitals.length > 0 ? totalLoadedHospitals : undefined;
     },
     // enabled: !!keyword || !!searchParams.departmentId, // keyword가 있을 때만 쿼리 실행
-    enabled: !!canFetch,
+
     staleTime: 0, // fresh -> stale, 5분이라는 기준
     gcTime: 300 * 1000,
   });
 
-  console.log('검색결과 :', data);
+  // console.log('검색결과 :', data);
 
   useEffect(() => {
     const keyword = searchparam.get('keyword');
@@ -123,7 +123,7 @@ export default function Find() {
         <div className={style.mainContainer}>
           <div className={style.articleWrapper}>
             {data?.pages.map((page, i) => {
-              console.log(page);
+              //console.log(page);
 
               return (
                 <Fragment key={i}>
