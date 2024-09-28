@@ -21,6 +21,7 @@ export default function BookingManageModal({ closeBookingManageModal }: Props) {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['bookingManage'],
     queryFn: () => getPatientReservation(getToken()),
+    staleTime: 0,
   });
 
   if (isError) {
@@ -52,6 +53,7 @@ export default function BookingManageModal({ closeBookingManageModal }: Props) {
       {reservations?.map((reservation, index) => {
         return (
           <article
+            key={reservation.reservation_id}
             className={style.hospital_wrapper}
             onClick={() => {
               openCancleModal(reservation.reservation_id);

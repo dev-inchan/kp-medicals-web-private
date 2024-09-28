@@ -95,8 +95,11 @@ export const useReservationLogic = ({ selectedDoctor }: UseReservationLogicParam
 
     // 예약된 시간을 시간별로 그룹화하고, 예약 수를 계산
     const reservationCount: Record<string, number> = {};
-    if (data && data.reservations) {
-      data.reservations.forEach((reservation: { time: string }) => {
+
+    // console.log('data : ', data);
+    // console.log('data.reservations :', data.data.reservations);
+    if (data && data.data.reservations) {
+      data.data.reservations.forEach((reservation: { time: string }) => {
         reservationCount[reservation.time] = (reservationCount[reservation.time] || 0) + 1;
       });
     }
@@ -127,7 +130,7 @@ export const useReservationLogic = ({ selectedDoctor }: UseReservationLogicParam
     const maxReservation = schedule.max_reservation;
     // console.log('maxReservation :', maxReservation);
     // console.log('reservedTimes[slot] :', reservedTimes[slot]);
-    console.log('reservedTimes :', reservedTimes);
+    //console.log('reservedTimes :', reservedTimes);
     return (reservedTimes[slot] || 0) >= maxReservation; // 예약된 시간이 max_reservation 이상인지 확인
   };
   return {

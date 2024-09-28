@@ -13,6 +13,7 @@ export default function BookingCancleModal({ closeCancleModal, reservation_id, c
   const mutation = useMutation<CancelReservationResponse, Error, CancleReservationRequest>({
     mutationFn: CancleReservation,
     onSuccess: (data) => {
+      alert('예약이 취소되었습니다.');
       closeCancleModal(); // 예약취소후 모달 닫기
       closeBookingManageModal();
     },
