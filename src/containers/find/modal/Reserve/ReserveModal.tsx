@@ -25,6 +25,7 @@ export default function ReserveModal({ handleReserveModal, hospitalId, selectedD
     interval, // 예약시간 간격
     selectedDateFormat, //  선택한 날짜를 포맷하여 관리 (예 : 2024-09-01)
     reservedTimes,
+    isSlotReserved,
     handleDateClick,
     timeClick,
   } = useReservationLogic({ selectedDoctor });
@@ -107,7 +108,6 @@ export default function ReserveModal({ handleReserveModal, hospitalId, selectedD
               <div className={style.time_button_wrapper}>
                 {/* {morningSlots.length > 0 ? (
                   morningSlots.map((slot, index) => (
-                    
                     <button
                       key={index}
                       className={`${style.time_button} ${selectedTime === slot ? style.time_selected : ''}`}
@@ -119,7 +119,7 @@ export default function ReserveModal({ handleReserveModal, hospitalId, selectedD
                 ) : (
                   <p>예약 가능한 시간이 없습니다.</p>
                 )} */}
-                {morningSlots.length > 0 ? (
+                {/* {morningSlots.length > 0 ? (
                   morningSlots.map((slot, index) => {
                     const isReserved = reservedTimes.includes(slot);
                     console.log('isReserved :', isReserved);
@@ -131,6 +131,26 @@ export default function ReserveModal({ handleReserveModal, hospitalId, selectedD
                         }`}
                         onClick={() => !isReserved && timeClick(slot)}
                         disabled={isReserved} // 예약된 시간일 경우 버튼 비활성화
+                      >
+                        {slot}
+                      </button>
+                    );
+                  })
+                ) : (
+                  <p>예약 가능한 시간이 없습니다.</p>
+                )} */}
+                {morningSlots.length > 0 ? (
+                  morningSlots.map((slot, index) => {
+                    const isReserved = isSlotReserved(slot); // 예약 가능한지 확인
+                    console.log(isReserved);
+                    return (
+                      <button
+                        key={index}
+                        className={`${style.time_button} ${selectedTime === slot ? style.time_selected : ''} ${
+                          isReserved ? style.time_disabled : ''
+                        }`}
+                        onClick={() => !isReserved && timeClick(slot)}
+                        disabled={isReserved} // 예약이 모두 찼을경우 버튼 비활성화
                       >
                         {slot}
                       </button>
@@ -157,9 +177,28 @@ export default function ReserveModal({ handleReserveModal, hospitalId, selectedD
                 ) : (
                   <p>예약 가능한 시간이 없습니다.</p>
                 )} */}
-                {afternoonSlots.length > 0 ? (
+                {/* {afternoonSlots.length > 0 ? (
                   afternoonSlots.map((slot, index) => {
                     const isReserved = reservedTimes.includes(slot);
+                    return (
+                      <button
+                        key={index}
+                        className={`${style.time_button} ${selectedTime === slot ? style.time_selected : ''} ${
+                          isReserved ? style.time_disabled : ''
+                        }`}
+                        onClick={() => !isReserved && timeClick(slot)}
+                        disabled={isReserved} // 예약된 시간일 경우 버튼 비활성화
+                      >
+                        {slot}
+                      </button>
+                    );
+                  })
+                ) : (
+                  <p>예약 가능한 시간이 없습니다.</p>
+                )} */}
+                {afternoonSlots.length > 0 ? (
+                  afternoonSlots.map((slot, index) => {
+                    const isReserved = isSlotReserved(slot); // 예약 가능한지 확인
                     return (
                       <button
                         key={index}

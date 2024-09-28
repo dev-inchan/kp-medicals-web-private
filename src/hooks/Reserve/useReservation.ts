@@ -26,7 +26,8 @@ export const useReservationLogic = ({ selectedDoctor }: UseReservationLogicParam
   const [todayString, setTodayString] = useState<string>(''); //오늘 날짜
   const [interval, setInterval] = useState<string | null>(null); // 예약시간 간격
   const [selectedDateFormat, setSelectedDateFormat] = useState<string | null>(null); // 선택한 날짜를 포맷하여 관리 (예 : 2024-09-01)
-  const [reservedTimes, setReservedTimes] = useState<string[]>([]); // 이미 예약된 시간
+  //  const [reservedTimes, setReservedTimes] = useState<string[]>([]); // 이미 예약된 시간
+  const [reservedTimes, setReservedTimes] = useState<Record<string, number>>({});
   //14일 간의 날짜 목록을 생성
   useEffect(() => {
     const today = new Date(); // 오늘 날짜 생성
@@ -83,16 +84,30 @@ export const useReservationLogic = ({ selectedDoctor }: UseReservationLogicParam
     console.log('getDateFormat :', getDateFormat);
 
     const data = await getDoctorReservation(getToken(), getDateFormat, String(selectedDoctor.staff_id));
-    console.log('data :', data);
-    console.log('morningSlots :', morningSlots);
-    console.log('afternoonSlots :', afternoonSlots);
-    // reservations가 있는지 확인 후 처리
-    const reservedTimes: string[] =
-      data && data.reservations ? data.reservations.map((reservation: { time: string }) => reservation.time) : [];
+    // console.log('data :', data);
+    // console.log('morningSlots :', morningSlots);
+    // console.log('afternoonSlots :', afternoonSlots);
+    // // reservations가 있는지 확인 후 처리
+    // const reservedTimes: string[] =
+    //   data && data.reservations ? data.reservations.map((reservation: { time: string }) => reservation.time) : [];
 
-    console.log(reservedTimes);
+    //    console.log(reservedTimes);
+
+    // 예약된 시간을 시간별로 그룹화하고, 예약 수를 계산
+    const reservationCount: Record<string, number> = {};
+    if (data && data.reservations) {
+      data.reservations.forEach((reservation: { time: string }) => {
+        reservationCount[reservation.time] = (reservationCount[reservation.time] || 0) + 1;
+      });
+    }
+    // 임의의 값을 추가하여 테스트
+    // reservationCount['09:00'] = 1;
+    // reservationCount['16:00'] = 1;
+    // console.log('reservationCount :', JSON.stringify(reservationCount, null, 2));
+
+    setReservedTimes(reservationCount); // 예약된 시간의 카운트 설정
     // 예약된 시간을 설정하고, 오전/오후 슬롯 설정
-    setReservedTimes(reservedTimes);
+    //setReservedTimes(reservedTimes);
     setSelectedDateFormat(getDateFormat);
     setSelectedDate(clickedDate.getDate());
     setMorningSlots(morningSlots);
@@ -104,15 +119,17 @@ export const useReservationLogic = ({ selectedDoctor }: UseReservationLogicParam
     setIsSelectDate(true); // 예약 시간을 선택한 상태로 저장.
   };
 
-  useEffect(() => {
-    // const DoctorReservations = async ()=>{
-    //   try {
-    //     const data = await getDoctorReservation()
-    //   } catch (error) {
-    //   }
-    // }
-  }, []);
+  // 특정 시간이 예약이 꽉찼으면 true 아니면 false
+  const isSlotReserved = (slot: string) => {
+    const schedule = selectedDoctor?.main_schedules[0];
+    if (!schedule) return false;
 
+    const maxReservation = schedule.max_reservation;
+    // console.log('maxReservation :', maxReservation);
+    // console.log('reservedTimes[slot] :', reservedTimes[slot]);
+    // console.log('reservedTimes :', reservedTimes);
+    return (reservedTimes[slot] || 0) >= maxReservation; // 예약된 시간이 max_reservation 이상인지 확인
+  };
   return {
     dates,
     selectedDate,
@@ -124,6 +141,7 @@ export const useReservationLogic = ({ selectedDoctor }: UseReservationLogicParam
     reservedTimes,
     interval,
     selectedDateFormat,
+    isSlotReserved,
     handleDateClick,
     timeClick,
   };
