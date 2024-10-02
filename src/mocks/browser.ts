@@ -8,7 +8,7 @@
 let worker;
 
 if (process.env.NODE_ENV === 'development') {
-  // 개발 환경에서만 MSW를 설정합니다.
+  // 개발 환경에서만 MSW를 설정.
   const { setupWorker } = require('msw/browser');
   const { handlers } = require('./handlers');
 

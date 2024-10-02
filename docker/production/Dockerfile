@@ -59,7 +59,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 # 추가적으로 만든 모듈에 실행에 필요한 디렉토리 복사
 # COPY --from=builder --chown=nextjs:nodejs /app/custom_modules ./custom_modules
-COPY --from=builder --chown=nextjs:nodejs /app/logs ./logs
+#COPY --from=builder --chown=nextjs:nodejs /app/logs ./logs
 
 # Next.js 실행에 필요한 node_modules를 복사
 COPY --from=builder /app/node_modules ./node_modules
