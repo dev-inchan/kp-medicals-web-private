@@ -1,0 +1,66 @@
+# buildspec.yml
+version: 0.2
+env: # shell script 실행 중 사용할 환경 변수 정의
+  variables:
+    AWS_DEFAULT_REGION: 'ap-northeast-2'
+    AWS_ACCOUNT_ID: '381492170774'
+    BASE_IMAGE_NAME: 'node'
+    BASE_IMAGE_TAG: '20.12.1'
+    PROJECT_NAME: 'kp-medicalwallet'
+    GIT_BRANCH: 'main'
+    IMAGE_TAG: 'latest'
+    DEPLOY_LEVEL: 'production'
+    SERVER_PLATFORM: 'linux/arm64'
+
+phases:
+  pre_build: # 각 변수 정의, AWS ECR 로그인
+    commands:
+      # 단순 로그
+      - echo Setting up environment variables...
+      - echo Retrieving environment variables from SSM...
+      # SSM Parameter Store /kp-medicalwallet/production/env 에서  파라미터의 Value만 가져와서 텍스트 형식으로 출력후, .env.production이라는 파일로 저장
+      - aws ssm get-parameter --name /$PROJECT_NAME/$DEPLOY_LEVEL/env --with-decryption --query Parameter.Value --output text > .env.$DEPLOY_LEVEL;
+      # 이미지를 저장할 Docker 리포지토리 이름을 변수로 설정.
+      - IMAGE_REPO_NAME="${PROJECT_NAME}-${GIT_BRANCH}"
+      - REPO_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7) #  Git 커밋 해시의 앞 7자리를 가져와서 이미지 태그로 사용
+      - BUILD_TAG=${COMMIT_HASH:=latest} # 커밋 해시를 태그로 사용하고, 커밋 해시가 없는 경우 latest를 기본값으로 하여 빌드태그로 사용
+      - echo Logging in to Amazon ECR...
+      # ECR 레지스트리에 Docker 로그인
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $REPO_URI # ECR 접근 권한 키 가져오기
+      - echo "[pre_build] Phase End"
+  build: # Docker에서 사용할 이미지 빌드
+    commands:
+      - echo Building $IMAGE_REPO_NAME Project...
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      # Dockerfile로 이미지 빌드
+      - docker build -f docker/$DEPLOY_LEVEL/Dockerfile --platform=$SERVER_PLATFORM -t $IMAGE_REPO_NAME:$BUILD_TAG --build-arg AWS_ACCOUNT_ID=$AWS_ACCOUNT_ID --build-arg AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION --build-arg BASE_IMAGE_NAME=$BASE_IMAGE_NAME --build-arg BASE_IMAGE_TAG=$BASE_IMAGE_TAG .
+      # 이미지에 2가지 태그를 설정함
+      - docker tag $IMAGE_REPO_NAME:$BUILD_TAG $REPO_URI/$IMAGE_REPO_NAME:$IMAGE_TAG # 이미지에 최신 버전(latest)으로 태그설정 ,
+      - docker tag $IMAGE_REPO_NAME:$BUILD_TAG $REPO_URI/$IMAGE_REPO_NAME:$BUILD_TAG #  고유한 태그 설정
+      - echo "[build] Phase End"
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image... # 다중 태그 이미지 push를 지원하지 않기에 직접 2번 push
+      - docker push $REPO_URI/$IMAGE_REPO_NAME:$IMAGE_TAG # 최신 배포에서 pull할 이미지
+      - docker push $REPO_URI/$IMAGE_REPO_NAME:$BUILD_TAG # 버전 관리용 이미지
+      - echo Copying appspec.yml to root directory... # artifact의 루트 디렉토리에 위치시키기 위해 사용
+      # 작업 디렉토리로 파일복사.
+      - cp codepipeline/$DEPLOY_LEVEL/appspec.yml appspec.yml
+      - cp codepipeline/$DEPLOY_LEVEL/scripts/stop_container.sh stop_container.sh
+      - cp codepipeline/$DEPLOY_LEVEL/scripts/run_container.sh run_container.sh
+      - echo Making scripts executable...
+      # 실행 권한을 부여
+      - chmod +x stop_container.sh
+      - chmod +x run_container.sh
+      - echo "[post_build] Phase End"
+artifacts: # 해당 repository에서 S3에 저장할 파일들 명시(Docker 배포가 아닌 일반 배포의 경우엔 빌드한 파일들을 명시함)
+  files:
+    - Makefile
+    - appspec.yml
+    - stop_container.sh
+    - run_container.sh
+    - docker/$DEPLOY_LEVEL/docker-compose.yml
