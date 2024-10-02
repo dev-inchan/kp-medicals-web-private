@@ -6,7 +6,15 @@ const nextConfig = {
   output: 'standalone',
   // TypeScript와 일치하는 경로 별칭 설정
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    config.resolve.alias['@'] = path.resolve(dirname(fileURLToPath(import.meta.url)), 'src');
+    config.resolve.alias['@'] = path.resolve(__dirname, 'src');
+
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        'process.env.MOCK': JSON.stringify(dev), // 개발 모드에서만 mock 사용
+      }),
+    );
+
     return config;
   },
   async rewrites() {
