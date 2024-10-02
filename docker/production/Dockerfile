@@ -12,6 +12,9 @@ FROM base AS deps
 
 WORKDIR /app
 
+# npm 버전 업데이트 추가
+RUN npm install -g npm@10.8.3
+
 # 어떤 lock 파일이 있는 지에 따라, 다른 패키지 매니저를 설치
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN \
