@@ -33,8 +33,7 @@ COPY . .
 # development 환경 변수를 이미지 내에서는 production 환경 변수인 것처럼 사용
 # 원본
 COPY .env.production .env.production
-# 임시
-# COPY .env.staging .env.development
+
 RUN npm run build
 
 # Runner 스테이지: base 스테이지를 기반으로 최종 실행 환경을 설정한다. 이때 deps 스테이지에서 설치한 종속성을 복사하고, 소스 코드를 복사한 후 빌드한다.
