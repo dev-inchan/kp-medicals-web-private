@@ -1,0 +1,8 @@
+services:
+  kp-medicalwallet:
+    image: 381492170774.dkr.ecr.ap-northeast-2.amazonaws.com/kp-medicalwallet-main:latest
+    container_name: kp-medicalwallet
+    platform: linux/arm64
+    ports:
+      - '3000:3000'
+    restart: unless-stopped
