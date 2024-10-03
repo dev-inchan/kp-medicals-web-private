@@ -43,8 +43,9 @@ WORKDIR /app
 
 # 원본
 ENV NODE_ENV=production
-# 임시
-# ENV NODE_ENV=development
+
+# .next 캐시 폴더 삭제
+RUN rm -rf .next/cache
 
 # 도커 컨테이너는 기본적으로 root 사용자로 실행돼서, 과도한 권한을 주는 것을 방지하는 목적
 # root 사용자로 실행하고 싶으면 아래에 있는 사용자, 그룹 관련 코드를 제거하면 됨
