@@ -37,13 +37,13 @@ export default function SearchSection() {
 
           <form className={style.search_container}>
             <div style={{ display: 'flex' }}>
-              <Image src='/main.png' alt='HomeMain_' className={style.full_image} width={500} height={300} />
+              {/* <Image src='/main.png' alt='HomeMain_' className={style.full_image} width={500} height={300} /> */}
 
               <div className={style.input_con}>
                 <div className={style.flex}>
                   <div className={style.flex}>
                     <div className={style.center}>
-                      <Image src={search_img} alt='search_img' className={style.search_img} />
+                      {/* <Image src={search_img} alt='search_img' className={style.search_img} /> */}
                       {/* <input className={style.search_input} placeholder='Select doctor...'></input> */}
                       <div style={{ width: '100%', maxWidth: '640px' }}>
                         <SelectDepartment handleChange={handleChange} />
@@ -52,7 +52,7 @@ export default function SearchSection() {
                   </div>
                   <div className={style.flex}>
                     <div className={style.center}>
-                      <Image src={map_img} alt='map_img' className={style.search_img} />
+                      {/* <Image src={map_img} alt='map_img' className={style.search_img} /> */}
                       <input
                         className={style.search_input}
                         placeholder='지역을 입력하세요'
