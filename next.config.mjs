@@ -17,9 +17,9 @@ const nextConfig = {
     return config;
   },
   // 이미지 최적화 비활성화
-  images: {
-    unoptimized: true,
-  },
+  // images: {
+  //   unoptimized: true,
+  // },
   async rewrites() {
     // 로컬 개발 환경에서만 프록시 적용
     // if (process.env.NODE_ENV === 'development') {
