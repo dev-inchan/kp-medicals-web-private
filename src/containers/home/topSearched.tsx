@@ -18,25 +18,33 @@ export default function TopSearched() {
         <h3 className={style.search}>가장 많이 검색된 분야</h3>
         <div className={style.grid_container}>
           <Link href={{ pathname: PathName, query: { department_id: '23' } }} className={style.top_link}>
-            <p className={style.test}>{/* <Image src={PrimaryCare} alt='Primary Care' className={style.img} /> */}</p>
+            <p className={style.test}>
+              <Image src={PrimaryCare} alt='Primary Care' className={style.img} />
+            </p>
             <div>가정의학과</div>
           </Link>
           <Link href={{ pathname: PathName, query: { department_id: '31' } }} className={style.top_link}>
-            <p className={style.test}>{/* <Image src={Dentist} alt='Dentist' className={style.img} /> */}</p>
+            <p className={style.test}>
+              <Image src={Dentist} alt='Dentist' className={style.img} />
+            </p>
             <div>치과</div>
           </Link>
           <Link href={{ pathname: PathName, query: { department_id: '10' } }} className={style.top_link}>
-            <p className={style.test}>{/* <Image src={ObGyn} alt='ObGyn' className={style.img} /> */}</p>
+            <p className={style.test}>
+              <Image src={ObGyn} alt='ObGyn' className={style.img} />
+            </p>
             <div>산부인과</div>
           </Link>
           <Link href={{ pathname: PathName, query: { department_id: '14' } }} className={style.top_link}>
             <p className={style.test}>
-              {/* <Image src={Dermatologist} alt='Dermatologist' className={style.img} /> */}
+              <Image src={Dermatologist} alt='Dermatologist' className={style.img} />
             </p>
             <div>피부과</div>
           </Link>
           <Link href={{ pathname: PathName, query: { department_id: '3' } }} className={style.top_link}>
-            <p className={style.test}>{/* <Image src={Psychiatrist} alt='Psychiatrist' className={style.img} /> */}</p>
+            <p className={style.test}>
+              <Image src={Psychiatrist} alt='Psychiatrist' className={style.img} />
+            </p>
             <div>정신의학과</div>
           </Link>
           <Link href={{ pathname: PathName, query: { department_id: '12' } }} className={style.top_link}>

@@ -44,7 +44,7 @@ export default function SearchSection() {
                   <div className={style.flex}>
                     <div className={style.center}>
                       <Image src={search_img} alt='search_img' className={style.search_img} />
-                      {/* <input className={style.search_input} placeholder='Select doctor...'></input> */}
+
                       <div style={{ width: '100%', maxWidth: '640px' }}>
                         <SelectDepartment handleChange={handleChange} />
                       </div>
