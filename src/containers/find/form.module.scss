@@ -71,17 +71,28 @@
 
 .scBtn {
   cursor: pointer;
-  width: 50%;
-  height: 50%;
+  width: 100%;
+  height: 50px;
   border-radius: 5px;
   border-width: 0px;
   background-color: #78d2f3;
 
   @media screen and (min-width: 1024px) {
-    width: 30%;
-    height: 30%;
+    width: 84px;
+    height: 74px;
     border: 1px solid rgba(51, 51, 51, 0.4);
     border-left-color: #fff;
     border-radius: 0 5px 5px 0;
+  }
+}
+
+.search_btn_img {
+  width: 50%;
+  height: 50%;
+
+  object-fit: contain; /* 이미지 비율을 유지하면서 요소에 맞게 조정 */
+  @media screen and (min-width: 1024px) {
+    width: 30%;
+    height: 30%;
   }
 }

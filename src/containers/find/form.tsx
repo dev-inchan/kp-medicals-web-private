@@ -62,7 +62,7 @@ export default function Form({ keyword, setKeyword, handleChange, handleSearch, 
           </div>
         </div>
         <button type='submit' className={style.scBtn}>
-          <Image src={search_img} alt='map_img' />
+          <Image src={search_img} alt='map_img' className={style.search_btn_img} width={12} height={10} />
         </button>
       </div>
     </form>
