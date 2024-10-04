@@ -35,7 +35,7 @@ export default function SearchSection() {
           </h1>
 
           <form className={style.search_container}>
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex', width: `100%` }}>
               <Image src='/main.png' alt='HomeMain_' className={style.full_image} width={500} height={300} />
 
               <div className={style.input_con}>

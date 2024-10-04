@@ -47,14 +47,19 @@
 }
 .input_con {
   display: flex;
+
   // flex-direction: column;
-  padding: 11px;
+  padding: 5px;
   width: 100%;
   background-color: rgb(255, 255, 255);
   color: rgb(51, 51, 51);
   border: 2px solid rgb(51, 51, 51);
   border-radius: 5px;
+  box-sizing: border-box; /* box-sizing 명시적으로 추가 */
 
+  @media screen and (min-width: 390px) {
+    padding: 11px;
+  }
   @media screen and (min-width: 1024px) {
     flex-direction: row;
     border-width: 2px 0px 2px 2px;

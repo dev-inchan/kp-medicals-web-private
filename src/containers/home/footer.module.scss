@@ -7,13 +7,17 @@
   min-width: 340px;
 }
 .footer_frame {
-  width: 1200px;
+  width: 100%;
   height: 100%;
   max-width: var(--max-width);
-  padding: 50px;
+  // padding: 50px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  box-sizing: border-box; /* 패딩이 포함된 너비 계산 */
+  @media screen and (min-width: 390px) {
+    padding: 50px;
+  }
 }
 .footer_brand {
   padding: 30px;
@@ -44,4 +48,13 @@
 .businees_info {
   font-weight: 500;
   line-height: 1.3;
+}
+@media screen and (max-width: 390px) {
+  .footer_brand p {
+    font-size: 14px; /* 폰트 크기를 줄임 */
+  }
+
+  .businees_info p {
+    font-size: 8px; /* 사업자 정보의 폰트 크기를 줄임 */
+  }
 }
