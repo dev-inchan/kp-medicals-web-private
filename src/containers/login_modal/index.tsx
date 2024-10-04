@@ -37,7 +37,6 @@ export default function LoginModal({ handleLoginModal }: Props) {
 
     // 모든 필드를 입력했는지 검사
     if (!Object.values(formData).every((value) => value.trim() !== '')) {
-      // console.log('1');
       setIsFormValid(false);
       return;
     }
@@ -46,15 +45,13 @@ export default function LoginModal({ handleLoginModal }: Props) {
       //  const a = await loginApi(formData.userid,formData.password)
 
       const result = await loginApi(formData.userid, formData.password);
-      // console.log('Success:', result);
+
       const { status, data } = result;
       if (status === 201) {
-        console.log('로그인 성공');
         saveToken(data.access_token); // 토큰저장
         handleLoginModal();
         window.location.reload(); // 현재 페이지 새로고침
       } else {
-        // console.log('로그인 실패 ');
         setErrorMsg(ERROR_MSG);
       }
     } catch (error) {

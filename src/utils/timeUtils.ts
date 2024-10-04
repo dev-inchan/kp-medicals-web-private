@@ -35,23 +35,18 @@ export function generateTimeSlots(startTime: string, endTime: string, timeSlot: 
  */
 export function formatDateToYYYYMMDD(day: number): string {
   const today = new Date(); // 오늘의 연도와 월 정보를 가져옴
-  console.log('today :', today);
+
   const year = today.getFullYear();
-  console.log('year :', year);
+
   const month = today.getMonth(); // 월은 0부터 시작 (0: 1월)
-  console.log('month :', month);
 
   const date = new Date(year, month, day);
-  console.log('date :', date);
 
   const yearString = date.getFullYear();
-  console.log('yearString :', yearString);
 
   const monthString = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
-  console.log('monthString :', monthString);
 
   const dayString = String(date.getDate()).padStart(2, '0');
-  console.log('dayString :', dayString);
 
   return `${yearString}-${monthString}-${dayString}`;
 }

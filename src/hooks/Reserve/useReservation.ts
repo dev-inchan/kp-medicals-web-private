@@ -56,11 +56,9 @@ export const useReservationLogic = ({ selectedDoctor }: UseReservationLogicParam
   // 날짜 클릭시 예약 가능한 시간대 표시.
   const handleDateClick = async (clickedDate: Date) => {
     if (!selectedDoctor) return;
-    console.log('clickedDate :', clickedDate);
-    console.log('selectedDoctor :', selectedDoctor);
 
     const selectedDayOfWeek = clickedDate.getDay(); // 클릭된 날짜의 요일을 가져옴
-    console.log('selectedDayOfWeek :', selectedDayOfWeek);
+
     const schedule = selectedDoctor.main_schedules[0]; // 기본 스케줄
     const getInterval = schedule.time_slot || '0'; // 예약간격
 
@@ -81,32 +79,17 @@ export const useReservationLogic = ({ selectedDoctor }: UseReservationLogicParam
     const morningSlots = generateTimeSlots(schedule.start_time1, schedule.end_time1, parseInt(schedule.time_slot));
     const afternoonSlots = generateTimeSlots(schedule.start_time2, schedule.end_time2, parseInt(schedule.time_slot));
     const getDateFormat = formatDate(clickedDate);
-    console.log('getDateFormat :', getDateFormat);
 
     const data = await getDoctorReservation(getToken(), getDateFormat, String(selectedDoctor.staff_id));
-    // console.log('data :', data);
-    // console.log('morningSlots :', morningSlots);
-    // console.log('afternoonSlots :', afternoonSlots);
-    // // reservations가 있는지 확인 후 처리
-    // const reservedTimes: string[] =
-    //   data && data.reservations ? data.reservations.map((reservation: { time: string }) => reservation.time) : [];
-
-    //    console.log(reservedTimes);
 
     // 예약된 시간을 시간별로 그룹화하고, 예약 수를 계산
     const reservationCount: Record<string, number> = {};
 
-    // console.log('data : ', data);
-    // console.log('data.reservations :', data.data.reservations);
     if (data && data.data.reservations) {
       data.data.reservations.forEach((reservation: { time: string }) => {
         reservationCount[reservation.time] = (reservationCount[reservation.time] || 0) + 1;
       });
     }
-    // 임의의 값을 추가하여 테스트
-    // reservationCount['09:00'] = 1;
-    // reservationCount['16:00'] = 1;
-    // console.log('reservationCount :', JSON.stringify(reservationCount, null, 2));
 
     setReservedTimes(reservationCount); // 예약된 시간의 카운트 설정
     // 예약된 시간을 설정하고, 오전/오후 슬롯 설정
@@ -128,9 +111,7 @@ export const useReservationLogic = ({ selectedDoctor }: UseReservationLogicParam
     if (!schedule) return false;
 
     const maxReservation = schedule.max_reservation;
-    // console.log('maxReservation :', maxReservation);
-    // console.log('reservedTimes[slot] :', reservedTimes[slot]);
-    //console.log('reservedTimes :', reservedTimes);
+
     return (reservedTimes[slot] || 0) >= maxReservation; // 예약된 시간이 max_reservation 이상인지 확인
   };
   return {

@@ -9,9 +9,6 @@ export const getHospitals = async (
   start: number,
   limit: number,
 ): Promise<HospitalResponse> => {
-  //console.log('병원검색요청');
-  //console.log('keyword : ', keyword);
-
   const urlParams = new URLSearchParams({
     start: String(start),
     limit: String(limit),
@@ -28,8 +25,6 @@ export const getHospitals = async (
   }
   const url = `${process.env.NEXT_PUBLIC_URL}api/medical-wallet/hospitals?${urlParams.toString()}`;
 
-  //console.log('url : ', url);
-
   const response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -43,6 +38,5 @@ export const getHospitals = async (
     throw new Error(result.message || 'Network response was not ok');
   }
 
-  //console.log('병원검색결과:', result);
   return result;
 };

@@ -15,7 +15,6 @@ type Props = {
 };
 
 const ImageCarousel = ({ images, className }: Props) => {
-  console.log('images :', images);
   return (
     <Swiper spaceBetween={50} slidesPerView={1} pagination={{ clickable: true }} loop={true}>
       {images.map((image, index) => (

@@ -38,7 +38,7 @@ export default function HospitalDetailModal({
 
   const hospitalDetail = data?.data?.hospital ?? null;
   const mainSchedules = data?.data?.doctors[0]?.main_schedules[0] ?? null;
-  console.log('hospitalDetail :', hospitalDetail);
+
   const renderBreakTime = () => {
     if (!mainSchedules) {
       return '확인필요'; // 스케줄 데이터가 없을 때
@@ -54,7 +54,6 @@ export default function HospitalDetailModal({
 
   //const test = [1, 2, 3];
   const renderDepartments = () => {
-    console.log('hospital :', hospital);
     return hospitalDetail?.department_id.map((departmentId) => {
       const department = departmentData.find((dep) => dep.id === parseInt(departmentId));
       return department ? department.name : '알 수 없음';

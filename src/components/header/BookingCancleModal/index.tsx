@@ -30,7 +30,7 @@ export default function BookingCancleModal({ closeCancleModal, reservation_id, c
         reservation_id: reservation_id,
       });
     } else {
-      console.log('Token or reservation_id is missing');
+      // Token or reservation_id is missing
     }
   };
 

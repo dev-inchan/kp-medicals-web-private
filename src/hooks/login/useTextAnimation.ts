@@ -6,13 +6,10 @@ export const useTextAnimation = (texts: string[]) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    // console.log('시작');
     const animElement: HTMLElement | null = document.querySelector(`.${style['text-anim']}`);
 
-    // console.log(animElement);
     if (animElement != null) {
       const handleAnimationEnd = () => {
-        // console.log(currentIndex);
         setCurrentIndex((prevIndex) => (prevIndex + 1) % texts.length);
 
         // 클래스 제거

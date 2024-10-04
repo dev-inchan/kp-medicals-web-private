@@ -10,9 +10,6 @@ export const CancleReservation = async ({
   if (!access_token) {
     throw new Error('Access token is required');
   }
-  console.log(access_token);
-  console.log(uid);
-  console.log(reservation_id);
 
   const url = `${API_URL}api/medical-wallet/hospitals/reservations/back`;
   const body = JSON.stringify({
@@ -20,7 +17,7 @@ export const CancleReservation = async ({
     uid: uid,
     reservation_id: reservation_id,
   });
-  console.log('body :', body);
+
   try {
     const response = await fetch(`${url}`, {
       method: 'POST',
@@ -42,7 +39,6 @@ export const CancleReservation = async ({
     const result = await response.json();
     return result;
   } catch (error) {
-    console.log('Error cancelling reservation', error);
     throw new Error(`Error cancelling reservation ${error}`);
   }
 };

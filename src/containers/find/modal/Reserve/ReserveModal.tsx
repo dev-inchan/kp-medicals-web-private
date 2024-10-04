@@ -38,13 +38,11 @@ export default function ReserveModal({ handleReserveModal, hospitalId, selectedD
       alert('예약이 완료되었습니다');
     },
     onError: (error) => {
-      console.error('Reservation failed:', error);
       alert('예약에 실패했습니다. 다시 시도해주세요.');
     },
   });
 
   const nextClick = () => {
-    console.log('selectedDoctor :', selectedDoctor);
     if (!isSelectDate || !selectedTime) {
       alert('예약 시간을 선택해주세요');
       return;
@@ -106,43 +104,10 @@ export default function ReserveModal({ handleReserveModal, hospitalId, selectedD
             <div>
               <p className={style.morning_title}>오전</p>
               <div className={style.time_button_wrapper}>
-                {/* {morningSlots.length > 0 ? (
-                  morningSlots.map((slot, index) => (
-                    <button
-                      key={index}
-                      className={`${style.time_button} ${selectedTime === slot ? style.time_selected : ''}`}
-                      onClick={() => timeClick(slot)}
-                    >
-                      {slot}
-                    </button>
-                  ))
-                ) : (
-                  <p>예약 가능한 시간이 없습니다.</p>
-                )} */}
-                {/* {morningSlots.length > 0 ? (
-                  morningSlots.map((slot, index) => {
-                    const isReserved = reservedTimes.includes(slot);
-                    console.log('isReserved :', isReserved);
-                    return (
-                      <button
-                        key={index}
-                        className={`${style.time_button} ${selectedTime === slot ? style.time_selected : ''} ${
-                          isReserved ? style.time_disabled : ''
-                        }`}
-                        onClick={() => !isReserved && timeClick(slot)}
-                        disabled={isReserved} // 예약된 시간일 경우 버튼 비활성화
-                      >
-                        {slot}
-                      </button>
-                    );
-                  })
-                ) : (
-                  <p>예약 가능한 시간이 없습니다.</p>
-                )} */}
                 {morningSlots.length > 0 ? (
                   morningSlots.map((slot, index) => {
                     const isReserved = isSlotReserved(slot); // 예약 가능한지 확인
-                    console.log(isReserved);
+
                     return (
                       <button
                         key={index}
@@ -164,38 +129,6 @@ export default function ReserveModal({ handleReserveModal, hospitalId, selectedD
             <div>
               <p className={style.morning_title}>오후</p>
               <div className={style.time_button_wrapper}>
-                {/* {afternoonSlots.length > 0 ? (
-                  afternoonSlots.map((slot, index) => (
-                    <button
-                      key={index}
-                      className={`${style.time_button} ${selectedTime === slot ? style.time_selected : ''}`}
-                      onClick={() => timeClick(slot)}
-                    >
-                      {slot}
-                    </button>
-                  ))
-                ) : (
-                  <p>예약 가능한 시간이 없습니다.</p>
-                )} */}
-                {/* {afternoonSlots.length > 0 ? (
-                  afternoonSlots.map((slot, index) => {
-                    const isReserved = reservedTimes.includes(slot);
-                    return (
-                      <button
-                        key={index}
-                        className={`${style.time_button} ${selectedTime === slot ? style.time_selected : ''} ${
-                          isReserved ? style.time_disabled : ''
-                        }`}
-                        onClick={() => !isReserved && timeClick(slot)}
-                        disabled={isReserved} // 예약된 시간일 경우 버튼 비활성화
-                      >
-                        {slot}
-                      </button>
-                    );
-                  })
-                ) : (
-                  <p>예약 가능한 시간이 없습니다.</p>
-                )} */}
                 {afternoonSlots.length > 0 ? (
                   afternoonSlots.map((slot, index) => {
                     const isReserved = isSlotReserved(slot); // 예약 가능한지 확인

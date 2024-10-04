@@ -23,7 +23,6 @@ export default function SearchSection() {
 
   const handleChange = (option: OptionType | null) => {
     setSelectDepart(option);
-    console.log('선택한 옵션 :', option);
   };
 
   return (

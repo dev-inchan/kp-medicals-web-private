@@ -111,10 +111,8 @@ export default function Form() {
     setDobEro(errors.birthDate || '');
     setSexEro(errors.birthSex || '');
 
-    console.log('제출');
-
     if (Object.keys(errors).length > 0) {
-      console.log('errors :', errors);
+      console.error('errors :', errors);
       return;
     }
     //return;
@@ -145,14 +143,14 @@ export default function Form() {
 
     if (userIdError) {
       setIdEro(userIdError);
-      console.log('비어있음.');
+
       return;
     }
 
     try {
       const result = await checkUserIdAvailability(formData.userid.trim());
       const { status } = result;
-      console.log(result);
+
       if (status == 200) {
         setIsIdChecking(true);
         setCheckedId(formData.userid.trim()); // 중복확인 검사를 한 아이디 저장
@@ -172,7 +170,6 @@ export default function Form() {
     const phoneError = validatePhoneNumber(formData.phone);
 
     if (phoneError) {
-      console.log(phoneError);
       setTelEro(phoneError);
       return;
     }
@@ -180,12 +177,11 @@ export default function Form() {
     try {
       const result = await sendVerificationCode(formData.phone.trim());
       const { status, data } = result;
-      console.log('result:', result);
+
       if (status == 200) {
         setTelToken(data.verify_token);
         alert('인증번호가 전송되었습니다.');
         // setTelEro();
-        console.log(data.verify_token);
       } else {
         setTelToken('');
         alert('인증번호 전송에 실패하였습니다.');

@@ -27,7 +27,6 @@ export default function SelectDoctorModal({ selectDoctor, hospital_id, goToNextM
   }
 
   const doctors = data?.data?.doctors ?? [];
-  console.log('doctors :', doctors);
 
   const doctorClick = (doctor: Doctor) => {
     selectDoctor(doctor); // 부모 컴포넌트로 의사 선택 전달

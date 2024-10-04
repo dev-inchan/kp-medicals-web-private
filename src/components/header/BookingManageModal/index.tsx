@@ -45,8 +45,6 @@ export default function BookingManageModal({ closeBookingManageModal }: Props) {
     setReservation_id(null); // 모달을 닫을 때 예약 ID 초기화
     setIsCancleModalOpen(false); // 모달 닫기
   };
-  console.log('booking: ', data);
-  console.log(reservations);
 
   return (
     <>

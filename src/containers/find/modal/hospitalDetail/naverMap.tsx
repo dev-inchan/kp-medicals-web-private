@@ -9,8 +9,6 @@ type Props = {
 export default function NaverMap({ x, y }: Props) {
   useEffect(() => {
     if (x && y) {
-      console.log('x:', x);
-      console.log('y:', y);
       const script = document.createElement('script');
       script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_API_KEY}`;
       script.async = true;
@@ -18,7 +16,6 @@ export default function NaverMap({ x, y }: Props) {
 
       script.onload = () => {
         if (!(window as any).naver) {
-          console.error(' 지도 로드 실패');
           return;
         }
 

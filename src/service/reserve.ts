@@ -7,8 +7,6 @@ const UID = process.env.NEXT_PUBLIC_UID;
  * 병원 예약 상세 정보 요청 API
  */
 export const getHospitalDetail = async (accessToken: string | null, hospitalId: number): Promise<HospitalDetail> => {
-  console.log('getHospitalDetail');
-
   if (!accessToken) {
     throw new Error('Access token is required');
   }
@@ -99,10 +97,6 @@ export const getDoctorReservation = async (access_token: string | null, date: st
     date: date,
     staff_id: staff_id,
   });
-  console.log('access_token : ', access_token);
-  console.log('date :', date);
-  console.log('staff_id :', staff_id);
-  console.log('uid :', UID);
 
   const url = `${API_URL}api/medical-wallet/hospitals/reservations/list/doctor?${params.toString()}`;
 
