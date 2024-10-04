@@ -51,7 +51,7 @@ export default function Find() {
 
   const { ref, inView } = useInView({ threshold: 0, delay: 0 });
 
-  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isFetching, isLoading } = useInfiniteQuery({
     queryKey: ['hospitals', searchParams.keyword, searchParams.departmentId], // 검색 상태를 기반으로 쿼리 실행
     queryFn: ({ pageParam = 0 }) => getHospitals(keyword, selectDepart?.id ?? 0, pageParam, 10),
     initialPageParam: 0,
@@ -62,7 +62,7 @@ export default function Find() {
     },
     // enabled: !!keyword || !!searchParams.departmentId, // keyword가 있을 때만 쿼리 실행
 
-    staleTime: 0, // fresh -> stale, 5분이라는 기준
+    staleTime: 0, // fresh -> stale,
     gcTime: 300 * 1000,
   });
 
@@ -86,13 +86,6 @@ export default function Find() {
       fetchNextPage();
     }
   }, [inView, hasNextPage, isFetching, fetchNextPage]);
-
-  // useEffect(() => {
-  //   const keyword = searchparam.get('keyword');
-  //   if (keyword) {
-  //     setKeyword(keyword);
-  //   }
-  // }, []);
 
   // searchParams가 업데이트되면 API 호출 가능하게 설정
   useEffect(() => {
@@ -119,7 +112,22 @@ export default function Find() {
       <main>
         <div className={style.mainContainer}>
           <div className={style.articleWrapper}>
-            {data?.pages.map((page, i) => {
+            {isLoading ? (
+              <p></p> // 로딩 중일 때 보여줌
+            ) : data?.pages.some((page) => page.data.hospitals.length > 0) ? (
+              data.pages.map((page, i) => (
+                <Fragment key={i}>
+                  {page.data.hospitals.map((hospital) => (
+                    <Article key={hospital.hospital_id} hospital={hospital} />
+                  ))}
+                </Fragment>
+              ))
+            ) : (
+              <div className={style.no_search_wrapper}>
+                <p className={style.no_search_data}>찾는 병원이 없습니다.</p>
+              </div>
+            )}
+            {/* {data?.pages.map((page, i) => {
               return (
                 <Fragment key={i}>
                   {page.data.hospitals.map((hospital) => (
@@ -127,7 +135,7 @@ export default function Find() {
                   ))}
                 </Fragment>
               );
-            })}
+            })} */}
             <div ref={ref} style={{ height: 50 }}></div>
           </div>
         </div>
