@@ -71,15 +71,15 @@
 
 .scBtn {
   cursor: pointer;
-  width: 100%;
-  height: 50px;
+  width: 50%;
+  height: 50%;
   border-radius: 5px;
   border-width: 0px;
   background-color: #78d2f3;
 
   @media screen and (min-width: 1024px) {
-    width: 84px;
-    height: 74px;
+    width: 30%;
+    height: 30%;
     border: 1px solid rgba(51, 51, 51, 0.4);
     border-left-color: #fff;
     border-radius: 0 5px 5px 0;
