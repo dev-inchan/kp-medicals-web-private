@@ -34,7 +34,7 @@ export default function SearchBtn({ additionalClass, searchWord, selectDepart }:
 
   return (
     <button className={`${additionalClass}`} onClick={handleSearchClick}>
-      <Image src={search_btn_img} alt='search_btn_img' className={style.search_btn_img} />
+      <Image src={search_btn_img} alt='search_btn_img' className={style.search_btn_img} width={12} height={10} />
     </button>
   );
 }

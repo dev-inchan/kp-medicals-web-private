@@ -6,7 +6,7 @@
   flex-direction: row;
   border-top: 0.5px solid rgba(58, 47, 31, 0.1);
   border-bottom: 1px solid rgba(51, 51, 51, 0.4);
-
+  box-sizing: border-box;
   @media screen and (min-width: 768px) {
     padding-left: 32px;
   }
