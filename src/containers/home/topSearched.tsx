@@ -17,25 +17,25 @@ export default function TopSearched() {
       <div className={style.center_align}>
         <h3 className={style.search}>가장 많이 검색된 분야</h3>
         <div className={style.grid_container}>
-          <Link href={{ pathname: PathName, query: { department_id: '23' } }} className={style.top_link}>
+          <Link href={{ pathname: PathName, query: { department_id: '14' } }} className={style.top_link}>
             <p className={style.test}>
               <Image src={PrimaryCare} alt='Primary Care' className={style.img} />
             </p>
             <div>가정의학과</div>
           </Link>
-          <Link href={{ pathname: PathName, query: { department_id: '31' } }} className={style.top_link}>
+          <Link href={{ pathname: PathName, query: { department_id: '15' } }} className={style.top_link}>
             <p className={style.test}>
               <Image src={Dentist} alt='Dentist' className={style.img} />
             </p>
             <div>치과</div>
           </Link>
-          <Link href={{ pathname: PathName, query: { department_id: '10' } }} className={style.top_link}>
+          <Link href={{ pathname: PathName, query: { department_id: '8' } }} className={style.top_link}>
             <p className={style.test}>
               <Image src={ObGyn} alt='ObGyn' className={style.img} />
             </p>
             <div>산부인과</div>
           </Link>
-          <Link href={{ pathname: PathName, query: { department_id: '14' } }} className={style.top_link}>
+          <Link href={{ pathname: PathName, query: { department_id: '12' } }} className={style.top_link}>
             <p className={style.test}>
               <Image src={Dermatologist} alt='Dermatologist' className={style.img} />
             </p>
@@ -45,9 +45,9 @@ export default function TopSearched() {
             <p className={style.test}>
               <Image src={Psychiatrist} alt='Psychiatrist' className={style.img} />
             </p>
-            <div>정신의학과</div>
+            <div>정신과</div>
           </Link>
-          <Link href={{ pathname: PathName, query: { department_id: '12' } }} className={style.top_link}>
+          <Link href={{ pathname: PathName, query: { department_id: '10' } }} className={style.top_link}>
             <p className={style.test}>
               <Image src={EyeDoctor} alt='EyeDoctor' className={style.img} />
             </p>
