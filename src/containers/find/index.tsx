@@ -95,7 +95,7 @@ export default function Find() {
   }, [searchParams]);
 
   return (
-    <>
+    <div style={{ overflow: 'hidden' }}>
       <Header />
       <div className={style.container}>
         <Intro />
@@ -127,19 +127,10 @@ export default function Find() {
                 <p className={style.no_search_data}>찾는 병원이 없습니다.</p>
               </div>
             )}
-            {/* {data?.pages.map((page, i) => {
-              return (
-                <Fragment key={i}>
-                  {page.data.hospitals.map((hospital) => (
-                    <Article key={hospital.hospital_id} hospital={hospital} />
-                  ))}
-                </Fragment>
-              );
-            })} */}
             <div ref={ref} style={{ height: 50 }}></div>
           </div>
         </div>
       </main>
-    </>
+    </div>
   );
 }
